@@ -56,6 +56,14 @@ class Subject extends Model
         return $this->hasMany(Content::class)->orderBy('position')->orderBy('id');
     }
 
+    /**
+     * @return HasMany<Activity, $this>
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class)->orderBy('position')->orderBy('id');
+    }
+
     public function isTaughtBy(User $user): bool
     {
         return $this->teacher_id !== null && $this->teacher_id === $user->id;

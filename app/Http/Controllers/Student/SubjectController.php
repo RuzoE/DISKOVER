@@ -21,10 +21,12 @@ class SubjectController extends Controller
         );
 
         $contents = $subject->contents()->where('is_published', true)->get();
+        $activities = $subject->activities()->where('is_published', true)->get();
 
         return view('student.subjects.show', [
             'subject' => $subject->load('teacher'),
             'contents' => $contents,
+            'activities' => $activities,
         ]);
     }
 }

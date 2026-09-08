@@ -26,6 +26,7 @@
                                 <td>{{ $subject->contents_count }}</td>
                                 <td><x-ui.badge :color="$subject->status->badgeColor()">{{ $subject->status->label() }}</x-ui.badge></td>
                                 <td class="table__actions">
+                                    <a href="{{ route('teacher.subjects.activities.index', $subject) }}" class="link">Actividades</a>
                                     <a href="{{ route('teacher.subjects.contents.index', $subject) }}" class="link">Contenidos</a>
                                 </td>
                             </tr>

@@ -81,4 +81,24 @@ class User extends Authenticatable
             ->whereIn('status', [EnrollmentStatus::Active->value, EnrollmentStatus::Completed->value])
             ->exists();
     }
+
+    /**
+     * Intentos de evaluación realizados por el usuario como estudiante.
+     *
+     * @return HasMany<Attempt, $this>
+     */
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(Attempt::class, 'student_id');
+    }
+
+    /**
+     * Calificaciones del usuario como estudiante.
+     *
+     * @return HasMany<Grade, $this>
+     */
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
 }

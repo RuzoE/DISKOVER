@@ -10,9 +10,16 @@ use App\Http\Controllers\Coordinator\CourseController as CoordinatorCourseContro
 use App\Http\Controllers\Coordinator\EnrollmentController as CoordinatorEnrollmentController;
 use App\Http\Controllers\Coordinator\SubjectController as CoordinatorSubjectController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Student\ActivityController as StudentActivityController;
+use App\Http\Controllers\Student\AttemptController as StudentAttemptController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\SubjectController as StudentSubjectController;
+use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
+use App\Http\Controllers\Teacher\AttemptReviewController as TeacherAttemptReviewController;
 use App\Http\Controllers\Teacher\ContentController as TeacherContentController;
+use App\Http\Controllers\Teacher\EvaluationController as TeacherEvaluationController;
+use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
+use App\Http\Controllers\Teacher\QuestionController as TeacherQuestionController;
 use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -84,6 +91,33 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::resource('subjects.contents', TeacherContentController::class)
             ->shallow()
             ->except(['show']);
+
+        // Actividades y evaluaciones
+        Route::resource('subjects.activities', TeacherActivityController::class)->shallow();
+
+        Route::get('activities/{activity}/evaluation', [TeacherEvaluationController::class, 'edit'])
+            ->name('activities.evaluation.edit');
+        Route::put('activities/{activity}/evaluation', [TeacherEvaluationController::class, 'update'])
+            ->name('activities.evaluation.update');
+
+        Route::get('activities/{activity}/questions/create', [TeacherQuestionController::class, 'create'])
+            ->name('activities.questions.create');
+        Route::post('activities/{activity}/questions', [TeacherQuestionController::class, 'store'])
+            ->name('activities.questions.store');
+        Route::get('questions/{question}/edit', [TeacherQuestionController::class, 'edit'])->name('questions.edit');
+        Route::put('questions/{question}', [TeacherQuestionController::class, 'update'])->name('questions.update');
+        Route::delete('questions/{question}', [TeacherQuestionController::class, 'destroy'])->name('questions.destroy');
+
+        // Calificaciones
+        Route::get('activities/{activity}/gradebook', [TeacherGradeController::class, 'index'])
+            ->name('activities.gradebook');
+        Route::post('activities/{activity}/grades', [TeacherGradeController::class, 'store'])
+            ->name('activities.grades.store');
+
+        Route::get('attempts/{attempt}/review', [TeacherAttemptReviewController::class, 'edit'])
+            ->name('attempts.review');
+        Route::put('attempts/{attempt}/review', [TeacherAttemptReviewController::class, 'update'])
+            ->name('attempts.review.update');
     });
 
     /*
@@ -92,5 +126,13 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
         Route::resource('courses', StudentCourseController::class)->only(['index', 'show']);
         Route::get('subjects/{subject}', StudentSubjectController::class)->name('subjects.show');
+
+        // Actividades, intentos y resultados
+        Route::get('activities/{activity}', [StudentActivityController::class, 'show'])->name('activities.show');
+        Route::post('activities/{activity}/attempts', [StudentAttemptController::class, 'store'])
+            ->name('activities.attempts.store');
+        Route::get('attempts/{attempt}', [StudentAttemptController::class, 'show'])->name('attempts.show');
+        Route::post('attempts/{attempt}/save', [StudentAttemptController::class, 'update'])->name('attempts.save');
+        Route::post('attempts/{attempt}/submit', [StudentAttemptController::class, 'submit'])->name('attempts.submit');
     });
 });

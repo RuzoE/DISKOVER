@@ -11,7 +11,10 @@
                 <x-ui.badge :color="$subject->status->badgeColor()">{{ $subject->status->label() }}</x-ui.badge>
             </p>
         </div>
-        <x-ui.button :href="route('teacher.subjects.contents.index', $subject)" variant="primary">Gestionar contenidos</x-ui.button>
+        <div class="u-flex u-gap-3">
+            <x-ui.button :href="route('teacher.subjects.activities.index', $subject)" variant="secondary">Actividades</x-ui.button>
+            <x-ui.button :href="route('teacher.subjects.contents.index', $subject)" variant="primary">Contenidos</x-ui.button>
+        </div>
     </div>
 
     <x-ui.card title="Descripción">

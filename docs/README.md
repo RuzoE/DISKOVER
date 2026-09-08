@@ -22,7 +22,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 0 — Preparación | ✅ Completada |
 | Fase 1 — Autenticación y seguridad | ✅ Completada |
 | Fase 2 — Gestión académica | ✅ Completada |
-| Fases 3–13 | ⏳ Pendientes |
+| Fase 3 — Actividades y evaluaciones | ✅ Completada |
+| Fases 4–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -33,3 +34,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0003](architecture/ADR-0003-rbac-propio.md) | RBAC propio (roles + permisos) |
 | [0004](architecture/ADR-0004-css-modular-sin-framework-utilidades.md) | CSS modular sin framework de utilidades |
 | [0005](architecture/ADR-0005-modelo-de-dominio-academico.md) | Modelo de dominio académico |
+| [0006](architecture/ADR-0006-modelo-de-evaluacion-y-calificacion.md) | Modelo de evaluación y motor de calificación |

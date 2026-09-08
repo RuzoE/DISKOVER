@@ -34,6 +34,8 @@ class RolePermissionSeeder extends Seeder
         'subjects.manage' => ['Gestionar asignaturas', 'academic', 'Crear, editar y eliminar asignaturas y asignar docentes.'],
         'enrollments.manage' => ['Gestionar inscripciones', 'academic', 'Inscribir y dar de baja a estudiantes en cursos.'],
         'contents.manage' => ['Gestionar contenidos', 'academic', 'Crear, editar y eliminar contenidos de las asignaturas que imparte.'],
+        'activities.manage' => ['Gestionar actividades', 'academic', 'Crear actividades y evaluaciones con sus preguntas en las asignaturas que imparte.'],
+        'grades.manage' => ['Gestionar calificaciones', 'academic', 'Calificar trabajos y revisar intentos de evaluación.'],
     ];
 
     /**
@@ -59,8 +61,8 @@ class RolePermissionSeeder extends Seeder
             ],
             RoleSlug::Teacher->value => [
                 'name' => RoleSlug::Teacher->label(),
-                'description' => 'Imparte asignaturas y gestiona sus contenidos.',
-                'permissions' => ['contents.manage'],
+                'description' => 'Imparte asignaturas: contenidos, actividades y calificaciones.',
+                'permissions' => ['contents.manage', 'activities.manage', 'grades.manage'],
             ],
             RoleSlug::Student->value => [
                 'name' => RoleSlug::Student->label(),

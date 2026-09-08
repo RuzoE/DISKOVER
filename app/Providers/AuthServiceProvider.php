@@ -2,16 +2,22 @@
 
 namespace App\Providers;
 
+use App\Models\Activity;
+use App\Models\Attempt;
 use App\Models\Content;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Grade;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Subject;
 use App\Models\User;
+use App\Policies\ActivityPolicy;
+use App\Policies\AttemptPolicy;
 use App\Policies\ContentPolicy;
 use App\Policies\CoursePolicy;
 use App\Policies\EnrollmentPolicy;
+use App\Policies\GradePolicy;
 use App\Policies\RolePolicy;
 use App\Policies\SubjectPolicy;
 use App\Policies\UserPolicy;
@@ -34,6 +40,9 @@ class AuthServiceProvider extends ServiceProvider
         Subject::class => SubjectPolicy::class,
         Enrollment::class => EnrollmentPolicy::class,
         Content::class => ContentPolicy::class,
+        Activity::class => ActivityPolicy::class,
+        Attempt::class => AttemptPolicy::class,
+        Grade::class => GradePolicy::class,
     ];
 
     public function boot(): void

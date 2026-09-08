@@ -19,6 +19,24 @@
         </x-ui.card>
     @endif
 
+    <x-ui.card title="Actividades y evaluaciones">
+        @if ($activities->isEmpty())
+            <x-tables.empty-state message="No hay actividades publicadas todavía." />
+        @else
+            <ul class="content-list">
+                @foreach ($activities as $activity)
+                    <li class="content-list__item">
+                        <a href="{{ route('student.activities.show', $activity) }}" class="link content-list__title">{{ $activity->title }}</a>
+                        <x-ui.badge :color="$activity->isQuiz() ? 'blue' : 'neutral'">{{ $activity->type->label() }}</x-ui.badge>
+                        @if ($activity->due_at)
+                            <span class="text-muted">Entrega {{ $activity->due_at->format('d/m/Y') }}</span>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </x-ui.card>
+
     <x-ui.card title="Contenidos">
         @if ($contents->isEmpty())
             <x-tables.empty-state message="El docente todavía no ha publicado contenidos." />
