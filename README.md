@@ -1,0 +1,76 @@
+# DISKOVER Smart Learning Ecosystem (DSLE)
+
+> Plataforma Inteligente para la Gestión Académica y el Aprendizaje Inmersivo basada en
+> Inteligencia Artificial, Analítica Educativa, Realidad Virtual y Realidad Aumentada.
+>
+> Academia DISKOVER US.
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Backend | Laravel 13 · PHP 8.3+ |
+| Base de datos | MySQL 8 |
+| Vistas | Blade |
+| Assets | Vite · Tailwind CSS 4 · JavaScript |
+| IA | Servicio externo (aislado tras `AIProviderInterface`) |
+| Inmersivo | Unity (VR/AR), integrado vía API |
+| Contenedores | Docker (cuando sea necesario) |
+
+## Arquitectura
+
+Monolito modular sobre Laravel 13. Módulos de dominio: `Academic`, `Analytics`, `AI`,
+`Recommendations`, `Immersive`, `Reports`, `Security`. Controladores delgados; la lógica
+vive en `app/Services` y `app/Actions`. Ver `docs/architecture/` (ADR).
+
+## Requisitos locales
+
+- PHP 8.3+ (probado con 8.4)
+- Composer 2.x
+- Node.js 20.19+ (recomendado 22 LTS) y npm
+- MySQL 8
+
+## Puesta en marcha
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+
+# Crear la base de datos 'diskover' en MySQL y ajustar credenciales en .env
+
+php artisan migrate
+npm install
+npm run build          # o: npm run dev
+
+php artisan serve
+```
+
+La aplicación queda disponible en `http://localhost:8000`.
+Healthcheck: `http://localhost:8000/up`.
+
+## Desarrollo por fases
+
+El proyecto se construye en fases consecutivas (0 → 13). El registro de cada fase
+—objetivo, archivos, pruebas y checklist— está en `docs/fases/`.
+
+| Fase | Contenido | Estado |
+|---|---|---|
+| 0 | Preparación del entorno y estructura modular | ✅ |
+| 1 | Autenticación, usuarios, roles y permisos | ⏳ |
+| 2 | Gestión académica | ⏳ |
+| 3 | Actividades y evaluaciones | ⏳ |
+| 4 | Seguimiento del aprendizaje | ⏳ |
+| 5 | Dashboards | ⏳ |
+| 6 | Learning Analytics | ⏳ |
+| 7 | Inteligencia artificial | ⏳ |
+| 8 | Motor de recomendaciones | ⏳ |
+| 9 | Experiencia inmersiva (Unity) | ⏳ |
+| 10 | Reportes | ⏳ |
+| 11 | Auditoría y seguridad avanzada | ⏳ |
+| 12 | Pruebas | ⏳ |
+| 13 | DevOps | ⏳ |
+
+## Repositorio
+
+`https://github.com/RuzoE/DISKOVER`
