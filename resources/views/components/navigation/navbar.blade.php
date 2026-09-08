@@ -1,55 +1,34 @@
 @php
-    use App\Enums\RoleSlug;
-
     $user = auth()->user();
-    $isTeacher = $user?->hasRole(RoleSlug::Teacher) || $user?->isAdmin();
-    $isStudent = $user?->hasRole(RoleSlug::Student) || $user?->isAdmin();
+    $initial = strtoupper(mb_substr($user?->name ?? '?', 0, 1));
 @endphp
 
-<header class="navbar">
-    <div class="navbar__inner">
-        <a href="{{ route('dashboard') }}" class="navbar__brand">
-            <span class="navbar__brand-mark">DSLE</span>
-            <span class="navbar__brand-text">DISKOVER Smart Learning Ecosystem</span>
-        </a>
+<header class="topbar">
+    <button type="button" class="icon-button topbar__toggle" data-sidebar-toggle
+            aria-label="Abrir menú" aria-controls="app-sidebar" aria-expanded="false">
+        <x-ui.icon name="menu" :size="22" />
+    </button>
 
-        <nav class="navbar__nav" aria-label="Navegación principal">
-            <a href="{{ route('dashboard') }}"
-               class="navbar__link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}">Panel</a>
+    <div class="topbar__spacer"></div>
 
-            @can('viewAny', App\Models\Course::class)
-                <a href="{{ route('coordinator.courses.index') }}"
-                   class="navbar__link {{ request()->routeIs('coordinator.*') ? 'is-active' : '' }}">Cursos</a>
-            @endcan
+    <div class="user-menu" data-user-menu>
+        <button type="button" class="user-menu__trigger" data-user-menu-trigger aria-expanded="false" aria-haspopup="true">
+            <span class="avatar avatar--sm" aria-hidden="true">{{ $initial }}</span>
+            <span class="user-menu__name">{{ $user?->name }}</span>
+            <x-ui.icon name="chevron-down" :size="16" />
+        </button>
 
-            @if ($isTeacher)
-                <a href="{{ route('teacher.subjects.index') }}"
-                   class="navbar__link {{ request()->routeIs('teacher.*') ? 'is-active' : '' }}">Mis asignaturas</a>
-            @endif
-
-            @if ($isStudent)
-                <a href="{{ route('student.courses.index') }}"
-                   class="navbar__link {{ request()->routeIs('student.*') ? 'is-active' : '' }}">Mis cursos</a>
-            @endif
-
-            @can('viewAny', App\Models\User::class)
-                <a href="{{ route('admin.users.index') }}"
-                   class="navbar__link {{ request()->routeIs('admin.users.*') ? 'is-active' : '' }}">Usuarios</a>
-            @endcan
-
-            @can('viewAny', App\Models\Role::class)
-                <a href="{{ route('admin.roles.index') }}"
-                   class="navbar__link {{ request()->routeIs('admin.roles.*') ? 'is-active' : '' }}">Roles</a>
-                <a href="{{ route('admin.permissions.index') }}"
-                   class="navbar__link {{ request()->routeIs('admin.permissions.*') ? 'is-active' : '' }}">Permisos</a>
-            @endcan
-        </nav>
-
-        <div class="navbar__user">
-            <span class="navbar__user-name">{{ $user?->name }}</span>
+        <div class="user-menu__panel" data-user-menu-panel hidden>
+            <p class="user-menu__meta">
+                <strong>{{ $user?->name }}</strong>
+                <small>{{ $user?->email }}</small>
+            </p>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn--ghost btn--sm">Cerrar sesión</button>
+                <button type="submit" class="user-menu__item">
+                    <x-ui.icon name="logout" :size="16" />
+                    Cerrar sesión
+                </button>
             </form>
         </div>
     </div>

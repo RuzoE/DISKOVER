@@ -49,5 +49,6 @@
 
     /* Layout */
     --container-max: 1120px;
-    --navbar-height: 60px;
+    --sidebar-width: 260px;
+    --topbar-height: 60px;
 }

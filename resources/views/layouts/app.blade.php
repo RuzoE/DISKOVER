@@ -8,16 +8,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="app-body">
-    <x-navigation.navbar />
+    <div class="app-shell">
+        <x-navigation.sidebar />
 
-    <main class="app-main">
-        <div class="app-container">
-            @if (session('status'))
-                <x-ui.alert type="success" class="u-mb-4">{{ session('status') }}</x-ui.alert>
-            @endif
+        <div class="app-content">
+            <x-navigation.navbar />
 
-            @yield('content')
+            <main class="app-main">
+                <div class="app-container">
+                    @if (session('status'))
+                        <x-ui.alert type="success" class="u-mb-4">{{ session('status') }}</x-ui.alert>
+                    @endif
+
+                    @yield('content')
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 </body>
 </html>

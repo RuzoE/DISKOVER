@@ -10,6 +10,7 @@
 @import './base/reset.css';
 @import './base/typography.css';
 
+@import './layouts/sidebar.css';
 @import './layouts/app.css';
 @import './layouts/guest.css';
 
