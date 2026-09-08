@@ -4,6 +4,7 @@ namespace App\Services\Academic;
 
 use App\Enums\AttemptStatus;
 use App\Enums\QuestionType;
+use App\Events\Academic\AttemptSubmitted;
 use App\Models\Attempt;
 use App\Models\AttemptAnswer;
 use App\Models\Evaluation;
@@ -128,7 +129,10 @@ class AttemptService
                 $this->grades->syncFromBestAttempt($attempt->evaluation->activity, $attempt->student);
             }
 
-            return $attempt->refresh();
+            $attempt->refresh();
+            AttemptSubmitted::dispatch($attempt);
+
+            return $attempt;
         });
     }
 

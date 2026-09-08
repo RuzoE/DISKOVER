@@ -23,7 +23,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 1 — Autenticación y seguridad | ✅ Completada |
 | Fase 2 — Gestión académica | ✅ Completada |
 | Fase 3 — Actividades y evaluaciones | ✅ Completada |
-| Fases 4–13 | ⏳ Pendientes |
+| Fase 4 — Seguimiento del aprendizaje | ✅ Completada |
+| Fases 5–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -35,3 +36,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0004](architecture/ADR-0004-css-modular-sin-framework-utilidades.md) | CSS modular sin framework de utilidades |
 | [0005](architecture/ADR-0005-modelo-de-dominio-academico.md) | Modelo de dominio académico |
 | [0006](architecture/ADR-0006-modelo-de-evaluacion-y-calificacion.md) | Modelo de evaluación y motor de calificación |
+| [0007](architecture/ADR-0007-seguimiento-del-aprendizaje.md) | Seguimiento del aprendizaje (progreso, eventos, perfil) |

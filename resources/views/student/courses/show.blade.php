@@ -8,8 +8,12 @@
             <h1 class="page-header__title">{{ $course->name }}</h1>
             <p class="page-header__subtitle"><code>{{ $course->code }}</code></p>
         </div>
-        <x-ui.button :href="route('student.courses.index')" variant="ghost">Mis cursos</x-ui.button>
+        <x-ui.button :href="route('student.courses.progress', $course)" variant="secondary">Ver progreso</x-ui.button>
     </div>
+
+    <x-ui.card title="Tu progreso">
+        <x-analytics.progress-summary :progress="$progress" label="Avance del curso" />
+    </x-ui.card>
 
     <x-ui.card title="Sobre el curso">
         <p>{{ $course->description ?? 'Sin descripción.' }}</p>

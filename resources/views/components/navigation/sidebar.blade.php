@@ -48,9 +48,14 @@
 
                 @if ($isStudent)
                     <a href="{{ route('student.courses.index') }}"
-                       class="sidebar__link {{ request()->routeIs('student.*') ? 'is-active' : '' }}">
+                       class="sidebar__link {{ request()->routeIs('student.courses.*', 'student.subjects.*', 'student.activities.*', 'student.attempts.*') ? 'is-active' : '' }}">
                         <x-ui.icon name="cap" />
                         <span>Mis cursos</span>
+                    </a>
+                    <a href="{{ route('student.profile.show') }}"
+                       class="sidebar__link {{ request()->routeIs('student.profile.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="chart" />
+                        <span>Mi progreso</span>
                     </a>
                 @endif
             </div>
@@ -92,8 +97,8 @@
             </span>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="chart" />
-                <span>Seguimiento y analítica</span>
-                <em class="sidebar__badge">Fase 4–6</em>
+                <span>Dashboards y analítica</span>
+                <em class="sidebar__badge">Fase 5–6</em>
             </span>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="sparkles" />

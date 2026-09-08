@@ -6,13 +6,17 @@ use App\Enums\AcademicStatus;
 use App\Enums\ActivityType;
 use App\Enums\ContentType;
 use App\Enums\EnrollmentStatus;
+use App\Enums\GradeSource;
+use App\Enums\LearningEventType;
 use App\Enums\QuestionType;
 use App\Models\Activity;
 use App\Models\Content;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\User;
+use App\Services\Analytics\LearningEventRecorder;
 use Illuminate\Database\Seeder;
 
 /**
@@ -72,7 +76,7 @@ class DemoAcademicSeeder extends Seeder
         }
 
         // Trabajo de entrega (calificación manual).
-        Activity::updateOrCreate(
+        $essay = Activity::updateOrCreate(
             ['subject_id' => $subject->id, 'title' => 'Ensayo: expectativas del curso'],
             [
                 'type' => ActivityType::Task->value,
@@ -131,6 +135,49 @@ class DemoAcademicSeeder extends Seeder
                 'score' => 3,
                 'position' => 3,
             ]);
+        }
+
+        // Seguimiento de ejemplo: un contenido completado y una nota manual.
+        if ($student) {
+            $recorder = app(LearningEventRecorder::class);
+
+            $recorder->record(
+                $student,
+                LearningEventType::Enrolled,
+                "Inscripción en el curso «{$course->name}».",
+                ['course_id' => $course->id],
+            );
+
+            $firstContent = $subject->contents()->orderBy('position')->first();
+            if ($firstContent && ! $firstContent->isCompletedBy($student)) {
+                $student->completedContents()->attach($firstContent->id, ['completed_at' => now()->subDays(2)]);
+                $recorder->record(
+                    $student,
+                    LearningEventType::ContentCompleted,
+                    "Contenido completado: «{$firstContent->title}».",
+                    ['course_id' => $course->id, 'subject_id' => $subject->id],
+                );
+            }
+
+            $grade = Grade::updateOrCreate(
+                ['activity_id' => $essay->id, 'student_id' => $student->id],
+                [
+                    'score' => 82,
+                    'feedback' => 'Buen planteamiento; amplía los ejemplos.',
+                    'source' => GradeSource::Manual->value,
+                    'graded_by' => $teacher?->id,
+                    'graded_at' => now()->subDay(),
+                ],
+            );
+
+            if ($grade->wasRecentlyCreated) {
+                $recorder->record(
+                    $student,
+                    LearningEventType::ActivityGraded,
+                    "Calificación registrada en «{$essay->title}»: 82/100.",
+                    ['course_id' => $course->id, 'subject_id' => $subject->id, 'activity_id' => $essay->id],
+                );
+            }
         }
     }
 }

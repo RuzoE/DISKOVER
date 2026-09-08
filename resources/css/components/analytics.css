@@ -1,0 +1,120 @@
+/* Progreso, estadísticas y línea de tiempo. */
+
+/* Barra de progreso */
+.progress {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.progress__head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+}
+
+.progress__track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.progress__bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.progress__bar--green { background: var(--color-success); }
+.progress__bar--blue { background: var(--color-primary); }
+.progress__bar--amber { background: var(--color-warning); }
+
+/* Resumen de progreso */
+.progress-summary {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.progress-summary__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    font-size: 0.85rem;
+    color: var(--color-text);
+}
+
+.progress-list {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.progress-list__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+/* Rejilla de estadísticas */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.stat-grid .card {
+    margin-bottom: 0;
+}
+
+.stat__label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.stat__value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin-top: var(--space-1);
+}
+
+/* Línea de tiempo */
+.timeline {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+}
+
+.timeline__item {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+}
+
+.timeline__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--color-info-bg);
+    color: var(--color-primary);
+}
+
+.timeline__text {
+    font-size: 0.9rem;
+}
+
+.timeline__meta {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}

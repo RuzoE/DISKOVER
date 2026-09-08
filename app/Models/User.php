@@ -101,4 +101,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Grade::class, 'student_id');
     }
+
+    /**
+     * Contenidos que el usuario ha marcado como completados.
+     *
+     * @return BelongsToMany<Content, $this>
+     */
+    public function completedContents(): BelongsToMany
+    {
+        return $this->belongsToMany(Content::class, 'content_user')
+            ->withPivot('completed_at');
+    }
+
+    /**
+     * Registro de aprendizaje del usuario.
+     *
+     * @return HasMany<LearningEvent, $this>
+     */
+    public function learningEvents(): HasMany
+    {
+        return $this->hasMany(LearningEvent::class)->latest('occurred_at');
+    }
 }

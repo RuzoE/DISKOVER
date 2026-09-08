@@ -49,6 +49,7 @@
             @endif
             @if ($user->hasRole(App\Enums\RoleSlug::Student) || $user->isAdmin())
                 <x-ui.button :href="route('student.courses.index')" variant="secondary" class="btn--sm">Mis cursos</x-ui.button>
+                <x-ui.button :href="route('student.profile.show')" variant="secondary" class="btn--sm">Mi progreso</x-ui.button>
             @endif
             @can('viewAny', App\Models\User::class)
                 <x-ui.button :href="route('admin.users.index')" variant="secondary" class="btn--sm">Usuarios</x-ui.button>

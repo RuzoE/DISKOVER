@@ -50,6 +50,7 @@
                                 <td>{{ $course->enrollments_count }}</td>
                                 <td><x-ui.badge :color="$course->status->badgeColor()">{{ $course->status->label() }}</x-ui.badge></td>
                                 <td class="table__actions">
+                                    <a href="{{ route('coordinator.courses.progress', $course) }}" class="link">Progreso</a>
                                     <a href="{{ route('coordinator.courses.edit', $course) }}" class="link">Editar</a>
                                     @can('delete', $course)
                                         <form method="POST" action="{{ route('coordinator.courses.destroy', $course) }}"

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\AuthEventSubscriber;
+use App\Listeners\LearningEventSubscriber;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::subscribe(AuthEventSubscriber::class);
+        Event::subscribe(LearningEventSubscriber::class);
 
         Paginator::defaultView('vendor.pagination.dsle');
         Paginator::defaultSimpleView('vendor.pagination.dsle');

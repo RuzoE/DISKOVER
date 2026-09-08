@@ -8,17 +8,22 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Coordinator\CourseController as CoordinatorCourseController;
 use App\Http\Controllers\Coordinator\EnrollmentController as CoordinatorEnrollmentController;
+use App\Http\Controllers\Coordinator\ProgressController as CoordinatorProgressController;
 use App\Http\Controllers\Coordinator\SubjectController as CoordinatorSubjectController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Student\ActivityController as StudentActivityController;
 use App\Http\Controllers\Student\AttemptController as StudentAttemptController;
+use App\Http\Controllers\Student\ContentController as StudentContentController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\ProfileController as StudentProfileController;
+use App\Http\Controllers\Student\ProgressController as StudentProgressController;
 use App\Http\Controllers\Student\SubjectController as StudentSubjectController;
 use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
 use App\Http\Controllers\Teacher\AttemptReviewController as TeacherAttemptReviewController;
 use App\Http\Controllers\Teacher\ContentController as TeacherContentController;
 use App\Http\Controllers\Teacher\EvaluationController as TeacherEvaluationController;
 use App\Http\Controllers\Teacher\GradeController as TeacherGradeController;
+use App\Http\Controllers\Teacher\ProgressController as TeacherProgressController;
 use App\Http\Controllers\Teacher\QuestionController as TeacherQuestionController;
 use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +82,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     */
     Route::middleware('role:admin,coordinator')->prefix('coordinator')->name('coordinator.')->group(function () {
         Route::resource('courses', CoordinatorCourseController::class);
+        Route::get('courses/{course}/progress', [CoordinatorProgressController::class, 'show'])->name('courses.progress');
         Route::resource('courses.subjects', CoordinatorSubjectController::class)->shallow();
         Route::resource('courses.enrollments', CoordinatorEnrollmentController::class)
             ->shallow()
@@ -88,6 +94,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     */
     Route::middleware('role:admin,teacher')->prefix('teacher')->name('teacher.')->group(function () {
         Route::resource('subjects', TeacherSubjectController::class)->only(['index', 'show']);
+        Route::get('subjects/{subject}/progress', [TeacherProgressController::class, 'show'])->name('subjects.progress');
         Route::resource('subjects.contents', TeacherContentController::class)
             ->shallow()
             ->except(['show']);
@@ -124,8 +131,12 @@ Route::middleware(['auth', 'active'])->group(function () {
     | Aprendizaje — cursos y asignaturas en los que el estudiante está inscrito
     */
     Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
+        Route::get('profile', [StudentProfileController::class, 'show'])->name('profile.show');
+
         Route::resource('courses', StudentCourseController::class)->only(['index', 'show']);
+        Route::get('courses/{course}/progress', [StudentProgressController::class, 'show'])->name('courses.progress');
         Route::get('subjects/{subject}', StudentSubjectController::class)->name('subjects.show');
+        Route::post('contents/{content}/complete', [StudentContentController::class, 'complete'])->name('contents.complete');
 
         // Actividades, intentos y resultados
         Route::get('activities/{activity}', [StudentActivityController::class, 'show'])->name('activities.show');

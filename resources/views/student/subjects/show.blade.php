@@ -13,6 +13,10 @@
         </div>
     </div>
 
+    <x-ui.card title="Tu progreso en la asignatura">
+        <x-analytics.progress-summary :progress="$progress" label="Avance" />
+    </x-ui.card>
+
     @if ($subject->description)
         <x-ui.card title="Descripción">
             <p>{{ $subject->description }}</p>
@@ -43,10 +47,12 @@
         @else
             <div class="content-blocks">
                 @foreach ($contents as $content)
+                    @php $done = in_array($content->id, $completedIds, true); @endphp
                     <article class="content-block">
                         <header class="content-block__header">
                             <h3 class="content-block__title">{{ $content->title }}</h3>
                             <x-ui.badge>{{ $content->type->label() }}</x-ui.badge>
+                            @if ($done) <x-ui.badge color="green">Completado</x-ui.badge> @endif
                         </header>
 
                         @if ($content->type === App\Enums\ContentType::Text)
@@ -54,6 +60,13 @@
                         @else
                             <p><a href="{{ $content->url }}" class="link" target="_blank" rel="noopener">Abrir recurso ↗</a></p>
                         @endif
+
+                        <form method="POST" action="{{ route('student.contents.complete', $content) }}" class="u-mt-2">
+                            @csrf
+                            <button type="submit" class="btn btn--{{ $done ? 'ghost' : 'secondary' }} btn--sm">
+                                {{ $done ? 'Marcar como pendiente' : 'Marcar como completado' }}
+                            </button>
+                        </form>
                     </article>
                 @endforeach
             </div>

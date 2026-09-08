@@ -4,6 +4,7 @@ namespace App\Services\Academic;
 
 use App\Enums\AttemptStatus;
 use App\Enums\GradeSource;
+use App\Events\Academic\ActivityGraded;
 use App\Models\Activity;
 use App\Models\Attempt;
 use App\Models\Grade;
@@ -16,7 +17,7 @@ class GradeService
      */
     public function setManual(Activity $activity, User $student, float $score, ?string $feedback, User $grader): Grade
     {
-        return Grade::updateOrCreate(
+        $grade = Grade::updateOrCreate(
             ['activity_id' => $activity->id, 'student_id' => $student->id],
             [
                 'score' => round($score, 2),
@@ -26,6 +27,12 @@ class GradeService
                 'graded_at' => now(),
             ],
         );
+
+        $grade->setRelation('activity', $activity);
+        $grade->setRelation('student', $student);
+        ActivityGraded::dispatch($grade);
+
+        return $grade;
     }
 
     /**
@@ -59,7 +66,7 @@ class GradeService
             ? round(((float) $best->score / $max) * (float) $activity->max_score, 2)
             : 0.0;
 
-        return Grade::updateOrCreate(
+        $grade = Grade::updateOrCreate(
             ['activity_id' => $activity->id, 'student_id' => $student->id],
             [
                 'attempt_id' => $best->id,
@@ -69,5 +76,11 @@ class GradeService
                 'graded_at' => now(),
             ],
         );
+
+        $grade->setRelation('activity', $activity);
+        $grade->setRelation('student', $student);
+        ActivityGraded::dispatch($grade);
+
+        return $grade;
     }
 }

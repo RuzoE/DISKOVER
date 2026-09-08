@@ -4,6 +4,7 @@ namespace App\Services\Academic;
 
 use App\Enums\EnrollmentStatus;
 use App\Enums\RoleSlug;
+use App\Events\Academic\StudentEnrolled;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
@@ -18,11 +19,18 @@ class EnrollmentService
     public function enroll(Course $course, User $student, EnrollmentStatus $status = EnrollmentStatus::Active): Enrollment
     {
         $enrollment = $course->enrollments()->firstOrNew(['student_id' => $student->id]);
+        $isNew = ! $enrollment->exists;
 
         $enrollment->fill([
             'status' => $status,
             'enrolled_at' => $enrollment->enrolled_at ?? now(),
         ])->save();
+
+        if ($isNew) {
+            $enrollment->setRelation('student', $student);
+            $enrollment->setRelation('course', $course);
+            StudentEnrolled::dispatch($enrollment);
+        }
 
         return $enrollment;
     }

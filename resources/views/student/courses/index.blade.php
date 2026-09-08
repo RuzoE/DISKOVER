@@ -18,9 +18,18 @@
                 <x-ui.card :title="$course->name">
                     <p class="text-muted"><code>{{ $course->code }}</code></p>
                     <p class="u-mt-2">{{ Str::limit($course->description, 120) ?: 'Sin descripción.' }}</p>
-                    <p class="u-mt-2 text-muted">{{ $course->subjects_count }} asignatura(s) activa(s)</p>
+
                     <div class="u-mt-4">
+                        <x-ui.progress :value="$progressByCourse[$course->id]['percentage']" label="Progreso" />
+                    </div>
+                    <p class="u-mt-2 text-muted">
+                        Promedio: {{ $progressByCourse[$course->id]['average'] !== null ? $progressByCourse[$course->id]['average'].'%' : '—' }}
+                        · {{ $course->subjects_count }} asignatura(s)
+                    </p>
+
+                    <div class="u-mt-4 u-flex u-gap-3">
                         <x-ui.button :href="route('student.courses.show', $course)" variant="primary" class="btn--sm">Entrar</x-ui.button>
+                        <x-ui.button :href="route('student.courses.progress', $course)" variant="ghost" class="btn--sm">Progreso</x-ui.button>
                     </div>
                 </x-ui.card>
             @endforeach

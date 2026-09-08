@@ -7,6 +7,7 @@ use Database\Factories\ContentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Content extends Model
 {
@@ -47,5 +48,21 @@ class Content extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Estudiantes que han marcado este contenido como completado.
+     *
+     * @return BelongsToMany<User, $this>
+     */
+    public function completedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'content_user')
+            ->withPivot('completed_at');
+    }
+
+    public function isCompletedBy(User $user): bool
+    {
+        return $this->completedBy()->whereKey($user->id)->exists();
     }
 }

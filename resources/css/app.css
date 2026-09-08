@@ -23,6 +23,7 @@
 @import './components/pagination.css';
 @import './components/content.css';
 @import './components/assessment.css';
+@import './components/analytics.css';
 
 @import './pages/admin/users.css';
 @import './pages/coordinator/courses.css';
