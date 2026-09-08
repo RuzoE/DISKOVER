@@ -1,0 +1,85 @@
+/* Paneles de inicio por rol. */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.dashboard-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-5);
+    align-items: start;
+}
+
+.stat-card {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
+}
+
+.stat-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+}
+
+.stat-card__icon--blue { background: var(--color-info-bg); color: var(--color-primary); }
+.stat-card__icon--green { background: var(--color-success-bg); color: #166534; }
+.stat-card__icon--amber { background: var(--color-warning-bg); color: #92400e; }
+.stat-card__icon--red { background: var(--color-danger-bg); color: #991b1b; }
+.stat-card__icon--neutral { background: var(--color-surface-alt); color: var(--color-text-muted); }
+
+.stat-card__label {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.stat-card__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    line-height: 1.2;
+}
+
+.stat-card__hint {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* Lista compacta de elementos accionables dentro de un panel */
+.panel-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+}
+
+.panel-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-alt);
+    font-size: 0.9rem;
+}
+
+.panel-list__item .panel-list__meta {
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+}

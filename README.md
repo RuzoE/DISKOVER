@@ -74,7 +74,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 2 | Gestión académica (cursos, asignaturas, inscripciones, contenidos) | ✅ |
 | 3 | Actividades y evaluaciones (preguntas, intentos, calificaciones) | ✅ |
 | 4 | Seguimiento del aprendizaje (progreso, historial, perfil) | ✅ |
-| 5 | Dashboards | ⏳ |
+| 5 | Dashboards por rol (estudiante, docente, coordinación, admin) | ✅ |
 | 6 | Learning Analytics | ⏳ |
 | 7 | Inteligencia artificial | ⏳ |
 | 8 | Motor de recomendaciones | ⏳ |
