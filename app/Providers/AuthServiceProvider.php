@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Content;
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Subject;
 use App\Models\User;
+use App\Policies\ContentPolicy;
+use App\Policies\CoursePolicy;
+use App\Policies\EnrollmentPolicy;
 use App\Policies\RolePolicy;
+use App\Policies\SubjectPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
@@ -22,6 +30,10 @@ class AuthServiceProvider extends ServiceProvider
     private array $policies = [
         User::class => UserPolicy::class,
         Role::class => RolePolicy::class,
+        Course::class => CoursePolicy::class,
+        Subject::class => SubjectPolicy::class,
+        Enrollment::class => EnrollmentPolicy::class,
+        Content::class => ContentPolicy::class,
     ];
 
     public function boot(): void

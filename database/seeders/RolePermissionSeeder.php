@@ -28,6 +28,12 @@ class RolePermissionSeeder extends Seeder
         'roles.create' => ['Crear roles', 'roles', 'Definir nuevos roles personalizados.'],
         'roles.update' => ['Editar roles', 'roles', 'Modificar un rol y sus permisos.'],
         'roles.delete' => ['Eliminar roles', 'roles', 'Eliminar roles personalizados.'],
+
+        // Gestión académica (Fase 2)
+        'courses.manage' => ['Gestionar cursos', 'academic', 'Crear, editar y eliminar cursos.'],
+        'subjects.manage' => ['Gestionar asignaturas', 'academic', 'Crear, editar y eliminar asignaturas y asignar docentes.'],
+        'enrollments.manage' => ['Gestionar inscripciones', 'academic', 'Inscribir y dar de baja a estudiantes en cursos.'],
+        'contents.manage' => ['Gestionar contenidos', 'academic', 'Crear, editar y eliminar contenidos de las asignaturas que imparte.'],
     ];
 
     /**
@@ -45,13 +51,16 @@ class RolePermissionSeeder extends Seeder
             ],
             RoleSlug::Coordinator->value => [
                 'name' => RoleSlug::Coordinator->label(),
-                'description' => 'Supervisión académica y consulta de usuarios y roles.',
-                'permissions' => ['users.view', 'roles.view'],
+                'description' => 'Supervisión académica: cursos, asignaturas e inscripciones.',
+                'permissions' => [
+                    'users.view', 'roles.view',
+                    'courses.manage', 'subjects.manage', 'enrollments.manage',
+                ],
             ],
             RoleSlug::Teacher->value => [
                 'name' => RoleSlug::Teacher->label(),
-                'description' => 'Gestión de sus cursos y estudiantes.',
-                'permissions' => [],
+                'description' => 'Imparte asignaturas y gestiona sus contenidos.',
+                'permissions' => ['contents.manage'],
             ],
             RoleSlug::Student->value => [
                 'name' => RoleSlug::Student->label(),

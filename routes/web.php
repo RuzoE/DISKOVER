@@ -6,7 +6,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Coordinator\CourseController as CoordinatorCourseController;
+use App\Http\Controllers\Coordinator\EnrollmentController as CoordinatorEnrollmentController;
+use App\Http\Controllers\Coordinator\SubjectController as CoordinatorSubjectController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\SubjectController as StudentSubjectController;
+use App\Http\Controllers\Teacher\ContentController as TeacherContentController;
+use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,5 +63,34 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('permissions', [PermissionController::class, 'index'])
             ->middleware('permission:roles.view')
             ->name('permissions.index');
+    });
+
+    /*
+    | Coordinación / Administración — estructura académica
+    */
+    Route::middleware('role:admin,coordinator')->prefix('coordinator')->name('coordinator.')->group(function () {
+        Route::resource('courses', CoordinatorCourseController::class);
+        Route::resource('courses.subjects', CoordinatorSubjectController::class)->shallow();
+        Route::resource('courses.enrollments', CoordinatorEnrollmentController::class)
+            ->shallow()
+            ->only(['index', 'store', 'update', 'destroy']);
+    });
+
+    /*
+    | Docencia — asignaturas propias y sus contenidos
+    */
+    Route::middleware('role:admin,teacher')->prefix('teacher')->name('teacher.')->group(function () {
+        Route::resource('subjects', TeacherSubjectController::class)->only(['index', 'show']);
+        Route::resource('subjects.contents', TeacherContentController::class)
+            ->shallow()
+            ->except(['show']);
+    });
+
+    /*
+    | Aprendizaje — cursos y asignaturas en los que el estudiante está inscrito
+    */
+    Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
+        Route::resource('courses', StudentCourseController::class)->only(['index', 'show']);
+        Route::get('subjects/{subject}', StudentSubjectController::class)->name('subjects.show');
     });
 });

@@ -46,6 +46,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Estudiante Demo',
                 'email' => 'estudiante@diskover.test',
             ]);
+
+            $this->call(DemoAcademicSeeder::class);
         }
     }
 }

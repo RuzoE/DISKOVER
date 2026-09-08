@@ -1,0 +1,55 @@
+/* Listas y bloques de contenido académico. */
+
+.content-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+}
+
+.content-list__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-alt);
+}
+
+.content-list__title {
+    font-weight: 500;
+    margin-right: auto;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.content-blocks {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.content-block {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+}
+
+.content-block__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.content-block__title {
+    margin-right: auto;
+}
+
+.content-block__body {
+    line-height: 1.7;
+}

@@ -71,7 +71,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 |---|---|---|
 | 0 | Preparación del entorno y estructura modular | ✅ |
 | 1 | Autenticación, usuarios, roles y permisos | ✅ |
-| 2 | Gestión académica | ⏳ |
+| 2 | Gestión académica (cursos, asignaturas, inscripciones, contenidos) | ✅ |
 | 3 | Actividades y evaluaciones | ⏳ |
 | 4 | Seguimiento del aprendizaje | ⏳ |
 | 5 | Dashboards | ⏳ |
