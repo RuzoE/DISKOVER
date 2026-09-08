@@ -16,6 +16,7 @@ use App\Models\Enrollment;
 use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\User;
+use App\Services\Academic\AttemptService;
 use App\Services\Analytics\LearningEventRecorder;
 use Illuminate\Database\Seeder;
 
@@ -177,6 +178,29 @@ class DemoAcademicSeeder extends Seeder
                     "Calificación registrada en «{$essay->title}»: 82/100.",
                     ['course_id' => $course->id, 'subject_id' => $subject->id, 'activity_id' => $essay->id],
                 );
+            }
+
+            // Un intento del cuestionario, resuelto y revisado (datos para analítica).
+            if ($quiz->evaluation && $quiz->evaluation->attempts()->where('student_id', $student->id)->doesntExist()) {
+                $attempts = app(AttemptService::class);
+                $attempt = $attempts->startOrResume($quiz->evaluation, $student);
+
+                $questions = $quiz->evaluation->questions()->with('options')->get();
+                $answers = [];
+                // q1 (única) correcta, q2 (V/F) incorrecta, q3 (abierta) respondida.
+                $answers[$questions[0]->id] = $questions[0]->options->firstWhere('is_correct', true)->id;
+                $answers[$questions[1]->id] = $questions[1]->options->firstWhere('is_correct', false)->id;
+                $answers[$questions[2]->id] = 'La analítica educativa transforma datos de aprendizaje en indicadores útiles.';
+
+                $attempt = $attempts->submit($attempt, $answers);
+
+                $openAnswer = $attempt->answers()
+                    ->whereHas('question', fn ($q) => $q->where('type', QuestionType::Open->value))
+                    ->first();
+
+                if ($openAnswer) {
+                    $attempts->gradeOpenAnswers($attempt, [$openAnswer->id => 2]);
+                }
             }
         }
     }

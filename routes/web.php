@@ -3,6 +3,9 @@
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Analytics\CourseAnalyticsController;
+use App\Http\Controllers\Analytics\StudentAnalyticsController;
+use App\Http\Controllers\Analytics\SubjectAnalyticsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -75,6 +78,18 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('permissions', [PermissionController::class, 'index'])
             ->middleware('permission:roles.view')
             ->name('permissions.index');
+    });
+
+    /*
+    | Learning Analytics
+    */
+    Route::prefix('analytics')->name('analytics.')->group(function () {
+        Route::get('student', [StudentAnalyticsController::class, 'show'])
+            ->middleware('role:admin,student')->name('student');
+        Route::get('subjects/{subject}', [SubjectAnalyticsController::class, 'show'])
+            ->middleware('role:admin,teacher,coordinator')->name('subject');
+        Route::get('courses/{course}', [CourseAnalyticsController::class, 'show'])
+            ->middleware('role:admin,coordinator')->name('course');
     });
 
     /*

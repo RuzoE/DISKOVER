@@ -39,6 +39,7 @@
                                 <td>{{ $course->subjects_count }}</td>
                                 <td>{{ $course->enrollments_count }}</td>
                                 <td class="table__actions">
+                                    <a href="{{ route('analytics.course', $course) }}" class="link">Analítica</a>
                                     <a href="{{ route('coordinator.courses.progress', $course) }}" class="link">Progreso</a>
                                 </td>
                             </tr>

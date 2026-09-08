@@ -75,7 +75,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 3 | Actividades y evaluaciones (preguntas, intentos, calificaciones) | ✅ |
 | 4 | Seguimiento del aprendizaje (progreso, historial, perfil) | ✅ |
 | 5 | Dashboards por rol (estudiante, docente, coordinación, admin) | ✅ |
-| 6 | Learning Analytics | ⏳ |
+| 6 | Learning Analytics (evolución, distribución, dificultades) | ✅ |
 | 7 | Inteligencia artificial | ⏳ |
 | 8 | Motor de recomendaciones | ⏳ |
 | 9 | Experiencia inmersiva (Unity) | ⏳ |

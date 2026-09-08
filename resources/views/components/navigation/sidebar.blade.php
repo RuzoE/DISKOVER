@@ -57,6 +57,11 @@
                         <x-ui.icon name="chart" />
                         <span>Mi progreso</span>
                     </a>
+                    <a href="{{ route('analytics.student') }}"
+                       class="sidebar__link {{ request()->routeIs('analytics.student') ? 'is-active' : '' }}">
+                        <x-ui.icon name="sparkles" />
+                        <span>Mi analítica</span>
+                    </a>
                 @endif
             </div>
         @endif
@@ -91,19 +96,19 @@
         <div class="sidebar__group">
             <p class="sidebar__group-label">Próximamente</p>
             <span class="sidebar__link is-disabled">
-                <x-ui.icon name="clipboard" />
-                <span>Actividades y evaluaciones</span>
-                <em class="sidebar__badge">Fase 3</em>
-            </span>
-            <span class="sidebar__link is-disabled">
-                <x-ui.icon name="chart" />
-                <span>Dashboards y analítica</span>
-                <em class="sidebar__badge">Fase 5–6</em>
-            </span>
-            <span class="sidebar__link is-disabled">
                 <x-ui.icon name="sparkles" />
-                <span>Asistente IA</span>
-                <em class="sidebar__badge">Fase 7</em>
+                <span>Asistente IA y recomendaciones</span>
+                <em class="sidebar__badge">Fase 7–8</em>
+            </span>
+            <span class="sidebar__link is-disabled">
+                <x-ui.icon name="cap" />
+                <span>Experiencias inmersivas</span>
+                <em class="sidebar__badge">Fase 9</em>
+            </span>
+            <span class="sidebar__link is-disabled">
+                <x-ui.icon name="clipboard" />
+                <span>Reportes</span>
+                <em class="sidebar__badge">Fase 10</em>
             </span>
         </div>
     </nav>

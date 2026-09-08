@@ -12,6 +12,7 @@
             </p>
         </div>
         <div class="u-flex u-gap-3">
+            <x-ui.button :href="route('analytics.course', $course)" variant="ghost">Analítica</x-ui.button>
             <x-ui.button :href="route('coordinator.courses.progress', $course)" variant="ghost">Progreso</x-ui.button>
             <x-ui.button :href="route('coordinator.courses.enrollments.index', $course)" variant="secondary">Inscripciones</x-ui.button>
             <x-ui.button :href="route('coordinator.courses.edit', $course)" variant="primary">Editar</x-ui.button>

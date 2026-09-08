@@ -1,0 +1,90 @@
+/* Gráficas propias (sin dependencias): barras en CSS, línea en SVG. */
+
+/* Barras horizontales */
+.chart-bars {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.chart-bars__row {
+    display: grid;
+    grid-template-columns: minmax(90px, 30%) 1fr auto;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.85rem;
+}
+
+.chart-bars__label {
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chart-bars__track {
+    height: 12px;
+    border-radius: 999px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.chart-bars__fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.chart-bars__fill--green { background: var(--color-success); }
+.chart-bars__fill--blue { background: var(--color-primary); }
+.chart-bars__fill--amber { background: var(--color-warning); }
+.chart-bars__fill--muted { background: var(--color-border); }
+
+.chart-bars__value {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+}
+
+/* Gráfica de línea (SVG) */
+.chart-line {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.chart-line svg {
+    width: 100%;
+    min-width: 320px;
+    height: auto;
+    display: block;
+}
+
+.chart-line__grid {
+    stroke: var(--color-border);
+    stroke-width: 1;
+}
+
+.chart-line__axis {
+    fill: var(--color-text-muted);
+    font-size: 10px;
+}
+
+.chart-line__path {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.chart-line__dot {
+    fill: var(--color-primary);
+    stroke: var(--color-surface);
+    stroke-width: 1.5;
+}
+
+@media (max-width: 640px) {
+    .chart-bars__row {
+        grid-template-columns: minmax(72px, 40%) 1fr auto;
+    }
+}

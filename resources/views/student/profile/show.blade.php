@@ -4,8 +4,11 @@
 
 @section('content')
     <div class="page-header">
-        <h1 class="page-header__title">Mi perfil académico</h1>
-        <p class="page-header__subtitle">Resumen de tu avance y tu historial de aprendizaje.</p>
+        <div>
+            <h1 class="page-header__title">Mi perfil académico</h1>
+            <p class="page-header__subtitle">Resumen de tu avance y tu historial de aprendizaje.</p>
+        </div>
+        <x-ui.button :href="route('analytics.student')" variant="secondary">Analítica detallada</x-ui.button>
     </div>
 
     <div class="stat-grid">

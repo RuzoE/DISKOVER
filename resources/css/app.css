@@ -25,6 +25,7 @@
 @import './components/assessment.css';
 @import './components/analytics.css';
 @import './components/dashboard.css';
+@import './components/charts.css';
 
 @import './pages/admin/users.css';
 @import './pages/coordinator/courses.css';
