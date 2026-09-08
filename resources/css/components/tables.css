@@ -1,0 +1,53 @@
+/* Tablas de datos. */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+    text-align: left;
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.table th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    background: var(--color-surface-alt);
+}
+
+.table tbody tr:hover {
+    background: var(--color-surface-alt);
+}
+
+.table__actions-col {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.table__actions {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    white-space: nowrap;
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--color-text-muted);
+}
+
+.empty-state__action {
+    margin-top: var(--space-3);
+}

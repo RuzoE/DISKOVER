@@ -1,0 +1,68 @@
+/* Botones. */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn--sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.82rem;
+}
+
+.btn--primary {
+    background: var(--color-primary);
+    color: var(--color-primary-contrast);
+}
+
+.btn--primary:hover {
+    background: var(--color-primary-hover);
+}
+
+.btn--secondary {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+.btn--secondary:hover {
+    background: var(--color-surface-alt);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+}
+
+.btn--ghost:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-text);
+}
+
+.btn--danger {
+    background: var(--color-danger);
+    color: #fff;
+}
+
+.btn--danger:hover {
+    background: #b91c1c;
+}

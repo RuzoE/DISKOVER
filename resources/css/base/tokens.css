@@ -1,0 +1,53 @@
+/* Design tokens — única fuente de color, espaciado y tipografía. */
+
+:root {
+    /* Paleta base */
+    --color-bg: #f4f6fb;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f8fafc;
+    --color-border: #e2e8f0;
+    --color-text: #1e293b;
+    --color-text-muted: #64748b;
+    --color-heading: #0f172a;
+
+    /* Marca */
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-primary-contrast: #ffffff;
+
+    /* Estados */
+    --color-success: #16a34a;
+    --color-success-bg: #dcfce7;
+    --color-warning: #d97706;
+    --color-warning-bg: #fef3c7;
+    --color-danger: #dc2626;
+    --color-danger-bg: #fee2e2;
+    --color-info: #0ea5e9;
+    --color-info-bg: #e0f2fe;
+
+    /* Tipografía */
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system,
+        'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-size-base: 15px;
+    --line-height-base: 1.55;
+
+    /* Escala de espaciado (4px) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+
+    /* Bordes y sombras */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+
+    /* Layout */
+    --container-max: 1120px;
+    --navbar-height: 60px;
+}

@@ -20,5 +20,14 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase | Estado |
 |---|---|
 | Fase 0 — Preparación | ✅ Completada |
-| Fase 1 — Autenticación y seguridad | ⏳ Pendiente |
+| Fase 1 — Autenticación y seguridad | ✅ Completada |
 | Fases 2–13 | ⏳ Pendientes |
+
+## ADR
+
+| ADR | Título |
+|---|---|
+| [0001](architecture/ADR-0001-monolito-modular.md) | Arquitectura de monolito modular |
+| [0002](architecture/ADR-0002-estructura-de-carpetas-modular.md) | Estructura de carpetas modular |
+| [0003](architecture/ADR-0003-rbac-propio.md) | RBAC propio (roles + permisos) |
+| [0004](architecture/ADR-0004-css-modular-sin-framework-utilidades.md) | CSS modular sin framework de utilidades |

@@ -1,0 +1,70 @@
+/* Tipografía base y encabezados. */
+
+h1, h2, h3, h4 {
+    color: var(--color-heading);
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.05rem; }
+
+p { margin: 0; }
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.link {
+    color: var(--color-primary);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.link--danger {
+    color: var(--color-danger);
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+}
+
+.page-header__subtitle {
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+}
+
+.detail-list {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.detail-list__row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: var(--space-3);
+}
+
+.detail-list__row dt {
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 640px) {
+    .detail-list__row {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+    }
+}

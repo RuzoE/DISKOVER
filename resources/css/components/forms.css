@@ -1,0 +1,139 @@
+/* Formularios y campos. */
+
+.form {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.form--stacked {
+    max-width: 640px;
+}
+
+.form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.form__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+}
+
+.field {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.field__label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.field__required {
+    color: var(--color-danger);
+    margin-left: 2px;
+}
+
+.field__control {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field__control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.field__control--invalid {
+    border-color: var(--color-danger);
+}
+
+.field__control[readonly] {
+    background: var(--color-surface-alt);
+    color: var(--color-text-muted);
+}
+
+.field__hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.field__error {
+    font-size: 0.8rem;
+    color: var(--color-danger);
+}
+
+/* Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.checkbox input {
+    width: 1rem;
+    height: 1rem;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-2);
+}
+
+/* Fieldset */
+.fieldset {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+}
+
+.fieldset__legend {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 var(--space-2);
+}
+
+.permission-group {
+    margin-bottom: var(--space-4);
+}
+
+.permission-group__title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+}
+
+/* Filtros de listado */
+.filters {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+}
+
+.filters .field__control {
+    width: auto;
+    min-width: 200px;
+    flex: 1 1 200px;
+}
+
+@media (max-width: 640px) {
+    .form__grid {
+        grid-template-columns: 1fr;
+    }
+}

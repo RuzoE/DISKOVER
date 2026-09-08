@@ -49,6 +49,19 @@ php artisan serve
 La aplicación queda disponible en `http://localhost:8000`.
 Healthcheck: `http://localhost:8000/up`.
 
+Tras `php artisan db:seed` existe un administrador inicial
+(`DSLE_ADMIN_EMAIL` / `DSLE_ADMIN_PASSWORD`, por defecto
+`admin@diskover.test` / `password`). **Cámbialo en cualquier entorno real.**
+
+### Pruebas
+
+```bash
+# Una sola vez: base de datos de pruebas (el entorno no tiene pdo_sqlite)
+mysql -uroot -e "CREATE DATABASE diskover_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+php artisan test
+```
+
 ## Desarrollo por fases
 
 El proyecto se construye en fases consecutivas (0 → 13). El registro de cada fase
@@ -57,7 +70,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | Fase | Contenido | Estado |
 |---|---|---|
 | 0 | Preparación del entorno y estructura modular | ✅ |
-| 1 | Autenticación, usuarios, roles y permisos | ⏳ |
+| 1 | Autenticación, usuarios, roles y permisos | ✅ |
 | 2 | Gestión académica | ⏳ |
 | 3 | Actividades y evaluaciones | ⏳ |
 | 4 | Seguimiento del aprendizaje | ⏳ |

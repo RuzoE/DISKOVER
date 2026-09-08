@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +31,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'status' => UserStatus::Active->value,
         ];
     }
 
@@ -41,5 +43,25 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function suspended(): static
+    {
+        return $this->state(fn () => ['status' => UserStatus::Suspended->value]);
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn () => ['status' => UserStatus::Inactive->value]);
+    }
+
+    /**
+     * Asigna el rol indicado (por slug) tras crear el usuario.
+     */
+    public function withRole(string $slug): static
+    {
+        return $this->afterCreating(function (User $user) use ($slug): void {
+            $user->assignRole($slug);
+        });
     }
 }
