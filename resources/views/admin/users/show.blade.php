@@ -8,9 +8,14 @@
             <h1 class="page-header__title">{{ $user->name }}</h1>
             <p class="page-header__subtitle">{{ $user->email }}</p>
         </div>
-        @can('update', $user)
-            <x-ui.button :href="route('admin.users.edit', $user)" variant="primary">Editar</x-ui.button>
-        @endcan
+        <div class="u-flex u-gap-3">
+            @if ($user->hasRole(App\Enums\RoleSlug::Student))
+                <x-ui.button :href="route('reports.transcript', $user)" variant="ghost">Expediente</x-ui.button>
+            @endif
+            @can('update', $user)
+                <x-ui.button :href="route('admin.users.edit', $user)" variant="primary">Editar</x-ui.button>
+            @endcan
+        </div>
     </div>
 
     <x-ui.card title="Información">

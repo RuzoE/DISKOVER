@@ -29,7 +29,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 7 — Inteligencia artificial | ✅ Completada |
 | Fase 8 — Motor de recomendaciones | ✅ Completada |
 | Fase 9 — Experiencias inmersivas | ✅ Completada |
-| Fases 10–13 | ⏳ Pendientes |
+| Fase 10 — Reportes | ✅ Completada |
+| Fases 11–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -47,3 +48,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0010](architecture/ADR-0010-integracion-de-ia.md) | Integración de IA (asistente educativo) |
 | [0011](architecture/ADR-0011-motor-de-recomendaciones.md) | Motor de recomendaciones (reglas, sin IA) |
 | [0012](architecture/ADR-0012-experiencias-inmersivas-y-api.md) | Experiencias inmersivas e integración Laravel ↔ Unity |
+| [0013](architecture/ADR-0013-modulo-de-reportes.md) | Módulo de reportes y exportación |

@@ -16,6 +16,7 @@ use App\Http\Controllers\Coordinator\ProgressController as CoordinatorProgressCo
 use App\Http\Controllers\Coordinator\SubjectController as CoordinatorSubjectController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Immersive\ExperienceController as ImmersiveExperienceController;
+use App\Http\Controllers\Reports\ReportController;
 use App\Http\Controllers\Student\ActivityController as StudentActivityController;
 use App\Http\Controllers\Student\AttemptController as StudentAttemptController;
 use App\Http\Controllers\Student\ContentController as StudentContentController;
@@ -176,10 +177,25 @@ Route::middleware(['auth', 'active'])->group(function () {
     });
 
     /*
+    | Reportes — académicos, de desempeño e institucionales (exportables a CSV)
+    */
+    Route::middleware('role:admin,coordinator,teacher')->prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::get('subjects/{subject}', [ReportController::class, 'subject'])->name('subject');
+
+        Route::middleware('role:admin,coordinator')->group(function () {
+            Route::get('institutional', [ReportController::class, 'institutional'])->name('institutional');
+            Route::get('courses/{course}', [ReportController::class, 'course'])->name('course');
+            Route::get('students/{user}/transcript', [ReportController::class, 'transcript'])->name('transcript');
+        });
+    });
+
+    /*
     | Aprendizaje — cursos y asignaturas en los que el estudiante está inscrito
     */
     Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
         Route::get('profile', [StudentProfileController::class, 'show'])->name('profile.show');
+        Route::get('transcript', [ReportController::class, 'myTranscript'])->name('transcript');
 
         Route::get('recommendations', [StudentRecommendationController::class, 'index'])->name('recommendations.index');
         Route::post('recommendations/{recommendation}/respond', [StudentRecommendationController::class, 'respond'])

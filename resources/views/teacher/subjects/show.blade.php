@@ -12,6 +12,7 @@
             </p>
         </div>
         <div class="u-flex u-gap-3">
+            <x-ui.button :href="route('reports.subject', $subject)" variant="ghost">Reporte</x-ui.button>
             <x-ui.button :href="route('analytics.subject', $subject)" variant="ghost">Analítica</x-ui.button>
             <x-ui.button :href="route('teacher.subjects.progress', $subject)" variant="ghost">Progreso</x-ui.button>
             <x-ui.button :href="route('teacher.subjects.activities.index', $subject)" variant="secondary">Actividades</x-ui.button>

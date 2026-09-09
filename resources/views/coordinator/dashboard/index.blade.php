@@ -6,8 +6,11 @@
 
 @section('content')
     <div class="page-header">
-        <h1 class="page-header__title">Panel de coordinación</h1>
-        <p class="page-header__subtitle">Estado general de cursos, asignaturas e inscripciones.</p>
+        <div>
+            <h1 class="page-header__title">Panel de coordinación</h1>
+            <p class="page-header__subtitle">Estado general de cursos, asignaturas e inscripciones.</p>
+        </div>
+        <x-ui.button :href="route('reports.institutional')" variant="secondary">Indicadores institucionales</x-ui.button>
     </div>
 
     <div class="dashboard-grid">

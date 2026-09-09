@@ -85,6 +85,19 @@
                         <x-ui.icon name="cap" />
                         <span>Experiencias VR/AR</span>
                     </a>
+                    <a href="{{ route('student.transcript') }}"
+                       class="sidebar__link {{ request()->routeIs('student.transcript') ? 'is-active' : '' }}">
+                        <x-ui.icon name="clipboard" />
+                        <span>Mi expediente</span>
+                    </a>
+                @endif
+
+                @if ($user?->hasAnyRole(['admin', 'coordinator', 'teacher']))
+                    <a href="{{ route('reports.index') }}"
+                       class="sidebar__link {{ request()->routeIs('reports.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="clipboard" />
+                        <span>Reportes</span>
+                    </a>
                 @endif
             </div>
         @endif
@@ -119,14 +132,14 @@
         <div class="sidebar__group">
             <p class="sidebar__group-label">Próximamente</p>
             <span class="sidebar__link is-disabled">
-                <x-ui.icon name="clipboard" />
-                <span>Reportes</span>
-                <em class="sidebar__badge">Fase 10</em>
-            </span>
-            <span class="sidebar__link is-disabled">
                 <x-ui.icon name="shield" />
                 <span>Auditoría avanzada</span>
                 <em class="sidebar__badge">Fase 11</em>
+            </span>
+            <span class="sidebar__link is-disabled">
+                <x-ui.icon name="stack" />
+                <span>DevOps y despliegue</span>
+                <em class="sidebar__badge">Fase 13</em>
             </span>
         </div>
     </nav>
