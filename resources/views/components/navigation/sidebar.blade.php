@@ -64,8 +64,13 @@
                     </a>
                     <a href="{{ route('analytics.student') }}"
                        class="sidebar__link {{ request()->routeIs('analytics.student') ? 'is-active' : '' }}">
-                        <x-ui.icon name="sparkles" />
+                        <x-ui.icon name="chart" />
                         <span>Mi analítica</span>
+                    </a>
+                    <a href="{{ route('student.recommendations.index') }}"
+                       class="sidebar__link {{ request()->routeIs('student.recommendations.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="clipboard" />
+                        <span>Recomendaciones</span>
                     </a>
                 @endif
             </div>
@@ -100,11 +105,6 @@
 
         <div class="sidebar__group">
             <p class="sidebar__group-label">Próximamente</p>
-            <span class="sidebar__link is-disabled">
-                <x-ui.icon name="sparkles" />
-                <span>Recomendaciones personalizadas</span>
-                <em class="sidebar__badge">Fase 8</em>
-            </span>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="cap" />
                 <span>Experiencias inmersivas</span>

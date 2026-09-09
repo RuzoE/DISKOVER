@@ -16,6 +16,7 @@ use App\Models\LearningEvent;
 use App\Models\Role;
 use App\Models\Subject;
 use App\Models\User;
+use App\Services\Recommendations\RecommendationService;
 
 /**
  * Datos agregados para los paneles de inicio, uno por rol. Reutiliza los
@@ -24,7 +25,10 @@ use App\Models\User;
  */
 class DashboardService
 {
-    public function __construct(private readonly StudentAnalyticsService $student) {}
+    public function __construct(
+        private readonly StudentAnalyticsService $student,
+        private readonly RecommendationService $recommendations,
+    ) {}
 
     /**
      * @return array<string, mixed>
@@ -46,10 +50,14 @@ class DashboardService
             ->limit(6)
             ->get();
 
+        $this->recommendations->generateFor($user);
+
         return [
             'profile' => $this->student->profile($user),
             'history' => $this->student->history($user, 8),
             'upcoming' => $upcoming,
+            'recommendations' => $this->recommendations->openFor($user)->take(3),
+            'recommendation_stats' => $this->recommendations->stats($user),
         ];
     }
 

@@ -21,6 +21,7 @@ use App\Http\Controllers\Student\ContentController as StudentContentController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Student\ProgressController as StudentProgressController;
+use App\Http\Controllers\Student\RecommendationController as StudentRecommendationController;
 use App\Http\Controllers\Student\SubjectController as StudentSubjectController;
 use App\Http\Controllers\Teacher\ActivityController as TeacherActivityController;
 use App\Http\Controllers\Teacher\AttemptReviewController as TeacherAttemptReviewController;
@@ -160,6 +161,10 @@ Route::middleware(['auth', 'active'])->group(function () {
     */
     Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
         Route::get('profile', [StudentProfileController::class, 'show'])->name('profile.show');
+
+        Route::get('recommendations', [StudentRecommendationController::class, 'index'])->name('recommendations.index');
+        Route::post('recommendations/{recommendation}/respond', [StudentRecommendationController::class, 'respond'])
+            ->name('recommendations.respond');
 
         Route::resource('courses', StudentCourseController::class)->only(['index', 'show']);
         Route::get('courses/{course}/progress', [StudentProgressController::class, 'show'])->name('courses.progress');

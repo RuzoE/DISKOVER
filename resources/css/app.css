@@ -27,6 +27,7 @@
 @import './components/dashboard.css';
 @import './components/charts.css';
 @import './components/chat.css';
+@import './components/recommendations.css';
 
 @import './pages/admin/users.css';
 @import './pages/coordinator/courses.css';

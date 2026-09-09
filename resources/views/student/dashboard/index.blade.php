@@ -61,6 +61,24 @@
         </x-ui.card>
     </div>
 
+    <x-ui.card title="Recomendaciones para ti">
+        <x-slot:actions>
+            <x-ui.button :href="route('student.recommendations.index')" variant="ghost" class="btn--sm">
+                Ver todas ({{ $data['recommendation_stats']['open'] }})
+            </x-ui.button>
+        </x-slot:actions>
+
+        @if ($data['recommendations']->isEmpty())
+            <x-tables.empty-state message="Sin recomendaciones abiertas ahora mismo." />
+        @else
+            <div class="rec-list">
+                @foreach ($data['recommendations'] as $recommendation)
+                    <x-recommendations.card :recommendation="$recommendation" />
+                @endforeach
+            </div>
+        @endif
+    </x-ui.card>
+
     <x-ui.card title="Actividad reciente">
         <x-slot:actions>
             <x-ui.button :href="route('student.profile.show')" variant="ghost" class="btn--sm">Ver todo</x-ui.button>

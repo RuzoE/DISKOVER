@@ -18,6 +18,7 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
 use App\Services\Analytics\LearningEventRecorder;
+use App\Services\Recommendations\RecommendationService;
 use Illuminate\Database\Seeder;
 
 /**
@@ -105,6 +106,19 @@ class DemoAcademicSeeder extends Seeder
 
         $evaluation = $quiz->evaluation()->firstOrCreate([]);
         $evaluation->update(['max_attempts' => 2, 'pass_score' => 60]);
+
+        // Actividad vencida sin entregar (para el motor de recomendaciones).
+        Activity::updateOrCreate(
+            ['subject_id' => $subject->id, 'title' => 'Tarea de repaso (semana 1)'],
+            [
+                'type' => ActivityType::Task->value,
+                'description' => 'Resumen de la primera unidad.',
+                'max_score' => 100,
+                'due_at' => now()->subDays(3),
+                'position' => 3,
+                'is_published' => true,
+            ],
+        );
 
         if ($evaluation->questions()->count() === 0) {
             $q1 = $evaluation->questions()->create([
@@ -199,9 +213,13 @@ class DemoAcademicSeeder extends Seeder
                     ->first();
 
                 if ($openAnswer) {
-                    $attempts->gradeOpenAnswers($attempt, [$openAnswer->id => 2]);
+                    // Nota final del quiz = (q1: 2) + (q3: 1) = 3/6 = 50 % -> por debajo del aprobado.
+                    $attempts->gradeOpenAnswers($attempt, [$openAnswer->id => 1]);
                 }
             }
+
+            // Genera las recomendaciones del estudiante demo.
+            app(RecommendationService::class)->generateFor($student);
         }
     }
 }

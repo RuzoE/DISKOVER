@@ -132,4 +132,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(AiConversation::class)->latest('last_message_at');
     }
+
+    /**
+     * Recomendaciones del motor de reglas para el usuario como estudiante.
+     *
+     * @return HasMany<Recommendation, $this>
+     */
+    public function recommendations(): HasMany
+    {
+        return $this->hasMany(Recommendation::class);
+    }
 }
