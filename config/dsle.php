@@ -106,4 +106,26 @@ return [
         'api_rate_limit_per_minute' => (int) env('DSLE_IMMERSIVE_API_RATE_LIMIT', 60),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Auditoría, seguridad y backups (Fase 11)
+    |--------------------------------------------------------------------------
+    */
+    'audit' => [
+        // Claves que nunca deben guardarse en el registro de auditoría.
+        'redact' => ['password', 'password_confirmation', 'remember_token', 'token',
+            'api_key', 'secret', 'launch_token', 'current_password'],
+    ],
+
+    'security' => [
+        // Cabeceras de seguridad HTTP añadidas a todas las respuestas web.
+        'hsts_max_age' => (int) env('DSLE_HSTS_MAX_AGE', 31536000),
+    ],
+
+    'backups' => [
+        'path' => storage_path('app/backups'),
+        'keep' => (int) env('DSLE_BACKUP_KEEP', 7),
+        'mysqldump_path' => env('DSLE_MYSQLDUMP_PATH', 'mysqldump'),
+    ],
+
 ];

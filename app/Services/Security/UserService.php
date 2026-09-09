@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
  */
 class UserService
 {
+    public function __construct(private readonly AuditLogger $audit) {}
+
     /**
      * @param  array<string, mixed>  $data  Datos ya validados por el Form Request.
      */
@@ -25,7 +27,11 @@ class UserService
                 'status' => $data['status'],
             ]);
 
-            $user->syncRoles(Arr::get($data, 'roles', []));
+            $roles = Arr::get($data, 'roles', []);
+            $user->syncRoles($roles);
+            $this->syncDirectPermissions($user, $data);
+
+            $this->audit->record('user.roles_assigned', $user, ['roles' => $roles]);
 
             return $user;
         });
@@ -48,7 +54,16 @@ class UserService
             }
 
             $user->update($attributes);
-            $user->syncRoles(Arr::get($data, 'roles', []));
+
+            $oldRoles = $user->roles->pluck('slug')->sort()->values()->all();
+            $newRoles = collect(Arr::get($data, 'roles', []))->sort()->values()->all();
+            $user->syncRoles($newRoles);
+
+            if ($oldRoles !== $newRoles) {
+                $this->audit->record('user.roles_changed', $user, ['old' => $oldRoles, 'new' => $newRoles]);
+            }
+
+            $this->syncDirectPermissions($user, $data);
 
             return $user;
         });
@@ -58,7 +73,27 @@ class UserService
     {
         DB::transaction(function () use ($user): void {
             $user->roles()->detach();
+            $user->directPermissions()->detach();
             $user->delete();
         });
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     */
+    private function syncDirectPermissions(User $user, array $data): void
+    {
+        if (! array_key_exists('direct_permissions', $data)) {
+            return;
+        }
+
+        $old = $user->directPermissions->pluck('slug')->sort()->values()->all();
+        $new = collect($data['direct_permissions'] ?? [])->map('strval')->sort()->values()->all();
+
+        $user->syncDirectPermissions($new);
+
+        if ($old !== $new) {
+            $this->audit->record('user.permissions_changed', $user, ['old' => $old, 'new' => $new]);
+        }
     }
 }

@@ -80,7 +80,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 8 | Motor de recomendaciones (reglas + seguimiento) | ✅ |
 | 9 | Experiencias inmersivas (Unity, API de sesiones y resultados) | ✅ |
 | 10 | Reportes (académicos, desempeño, institucionales, CSV) | ✅ |
-| 11 | Auditoría y seguridad avanzada | ⏳ |
+| 11 | Auditoría y seguridad avanzada (registro append-only, permisos directos, cabeceras, backups) | ✅ |
 | 12 | Pruebas | ⏳ |
 | 13 | DevOps | ⏳ |
 

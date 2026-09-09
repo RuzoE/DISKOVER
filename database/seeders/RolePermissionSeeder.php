@@ -39,6 +39,9 @@ class RolePermissionSeeder extends Seeder
 
         // Experiencias inmersivas (Fase 9)
         'immersive.manage' => ['Gestionar experiencias inmersivas', 'immersive', 'Registrar experiencias inmersivas y vincularlas a asignaturas y actividades.'],
+
+        // Auditoría y seguridad avanzada (Fase 11)
+        'audit.view' => ['Ver auditoría', 'security', 'Consultar y exportar el registro de auditoría del sistema.'],
     ];
 
     /**

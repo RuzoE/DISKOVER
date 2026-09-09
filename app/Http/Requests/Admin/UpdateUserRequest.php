@@ -28,6 +28,8 @@ class UpdateUserRequest extends FormRequest
             'status' => ['required', Rule::enum(UserStatus::class)],
             'roles' => ['array'],
             'roles.*' => ['string', 'exists:roles,slug'],
+            'direct_permissions' => ['array'],
+            'direct_permissions.*' => ['string', 'exists:permissions,slug'],
         ];
     }
 

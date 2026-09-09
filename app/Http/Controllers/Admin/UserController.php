@@ -6,6 +6,7 @@ use App\Enums\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\Security\UserService;
@@ -47,6 +48,7 @@ class UserController extends Controller
         return view('admin.users.create', [
             'roles' => Role::orderBy('name')->get(),
             'statuses' => UserStatus::options(),
+            'permissionGroups' => Permission::orderBy('group')->orderBy('name')->get()->groupBy('group'),
         ]);
     }
 
@@ -73,9 +75,10 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         return view('admin.users.edit', [
-            'user' => $user->load('roles'),
+            'user' => $user->load('roles', 'directPermissions'),
             'roles' => Role::orderBy('name')->get(),
             'statuses' => UserStatus::options(),
+            'permissionGroups' => Permission::orderBy('group')->orderBy('name')->get()->groupBy('group'),
         ]);
     }
 

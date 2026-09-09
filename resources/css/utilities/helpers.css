@@ -2,6 +2,7 @@
 
 .u-mt-2 { margin-top: var(--space-2); }
 .u-mt-4 { margin-top: var(--space-4); }
+.u-mb-3 { margin-bottom: var(--space-3); }
 .u-mb-4 { margin-bottom: var(--space-4); }
 .u-mb-5 { margin-bottom: var(--space-5); }
 

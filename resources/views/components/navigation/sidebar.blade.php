@@ -90,6 +90,10 @@
                         <x-ui.icon name="clipboard" />
                         <span>Mi expediente</span>
                     </a>
+                    <a href="{{ route('student.data.download') }}" class="sidebar__link">
+                        <x-ui.icon name="clipboard" />
+                        <span>Descargar mis datos</span>
+                    </a>
                 @endif
 
                 @if ($user?->hasAnyRole(['admin', 'coordinator', 'teacher']))
@@ -126,16 +130,19 @@
                         <span>Permisos</span>
                     </a>
                 @endcan
+
+                @can('audit.view')
+                    <a href="{{ route('admin.audit.index') }}"
+                       class="sidebar__link {{ request()->routeIs('admin.audit.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="shield" />
+                        <span>Auditoría</span>
+                    </a>
+                @endcan
             </div>
         @endif
 
         <div class="sidebar__group">
             <p class="sidebar__group-label">Próximamente</p>
-            <span class="sidebar__link is-disabled">
-                <x-ui.icon name="shield" />
-                <span>Auditoría avanzada</span>
-                <em class="sidebar__badge">Fase 11</em>
-            </span>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="stack" />
                 <span>DevOps y despliegue</span>

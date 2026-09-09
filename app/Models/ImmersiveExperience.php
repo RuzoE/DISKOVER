@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AcademicStatus;
 use App\Enums\ImmersiveProvider;
+use App\Models\Concerns\Auditable;
 use Database\Factories\ImmersiveExperienceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 class ImmersiveExperience extends Model
 {
     /** @use HasFactory<ImmersiveExperienceFactory> */
-    use HasFactory;
+    use Auditable, HasFactory;
 
     protected $fillable = [
         'slug',

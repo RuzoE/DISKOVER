@@ -3,14 +3,16 @@
 namespace App\Models\Concerns;
 
 use App\Enums\RoleSlug;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
 /**
- * Da a un modelo (User) la capacidad de tener roles y, a través de ellos,
- * permisos. La comprobación real de autorización se hace vía Gate/Policies;
- * estos métodos son la fuente de verdad que consultan.
+ * Da a un modelo (User) la capacidad de tener roles y permisos. Los permisos
+ * llegan por sus roles y, además, de forma directa (pivote `permission_user`,
+ * Fase 11). La autorización real se resuelve vía Gate/Policies consultando estos
+ * métodos.
  */
 trait HasRoles
 {
@@ -20,6 +22,16 @@ trait HasRoles
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Permisos concedidos directamente al usuario, además de los de sus roles.
+     *
+     * @return BelongsToMany<Permission, $this>
+     */
+    public function directPermissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'permission_user');
     }
 
     public function hasRole(RoleSlug|string $role): bool
@@ -49,15 +61,18 @@ trait HasRoles
     }
 
     /**
-     * Todos los slugs de permiso concedidos al usuario a través de sus roles.
+     * Todos los slugs de permiso del usuario: los de sus roles más los directos.
      *
      * @return Collection<int, string>
      */
     public function permissionSlugs(): Collection
     {
-        return $this->roles
+        $fromRoles = $this->roles
             ->loadMissing('permissions')
-            ->flatMap(fn (Role $role) => $role->permissions->pluck('slug'))
+            ->flatMap(fn (Role $role) => $role->permissions->pluck('slug'));
+
+        return $fromRoles
+            ->merge($this->directPermissions->pluck('slug'))
             ->unique()
             ->values();
     }
@@ -96,5 +111,18 @@ trait HasRoles
             $this->roles()->syncWithoutDetaching([$roleId]);
             $this->unsetRelation('roles');
         }
+    }
+
+    /**
+     * Reemplaza los permisos directos del usuario a partir de sus slugs.
+     *
+     * @param  array<int, string>  $slugs
+     */
+    public function syncDirectPermissions(array $slugs): void
+    {
+        $ids = Permission::whereIn('slug', $slugs)->pluck('id')->all();
+
+        $this->directPermissions()->sync($ids);
+        $this->unsetRelation('directPermissions');
     }
 }

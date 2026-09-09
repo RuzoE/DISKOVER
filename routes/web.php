@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Student\ActivityController as StudentActivityController
 use App\Http\Controllers\Student\AttemptController as StudentAttemptController;
 use App\Http\Controllers\Student\ContentController as StudentContentController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\DataExportController as StudentDataExportController;
 use App\Http\Controllers\Student\ImmersiveController as StudentImmersiveController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Student\ProgressController as StudentProgressController;
@@ -83,6 +85,9 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('permissions', [PermissionController::class, 'index'])
             ->middleware('permission:roles.view')
             ->name('permissions.index');
+        Route::get('audit', [AuditController::class, 'index'])
+            ->middleware('permission:audit.view')
+            ->name('audit.index');
     });
 
     /*
@@ -196,6 +201,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::middleware('role:admin,student')->prefix('student')->name('student.')->group(function () {
         Route::get('profile', [StudentProfileController::class, 'show'])->name('profile.show');
         Route::get('transcript', [ReportController::class, 'myTranscript'])->name('transcript');
+        Route::get('my-data', [StudentDataExportController::class, 'download'])->name('data.download');
 
         Route::get('recommendations', [StudentRecommendationController::class, 'index'])->name('recommendations.index');
         Route::post('recommendations/{recommendation}/respond', [StudentRecommendationController::class, 'respond'])

@@ -13,6 +13,8 @@ use Illuminate\Validation\ValidationException;
  */
 class RoleService
 {
+    public function __construct(private readonly AuditLogger $audit) {}
+
     /**
      * @param  array<string, mixed>  $data  Datos ya validados por el Form Request.
      */
@@ -26,7 +28,9 @@ class RoleService
                 'is_system' => false,
             ]);
 
-            $role->syncPermissionsBySlug(Arr::get($data, 'permissions', []));
+            $permissions = Arr::get($data, 'permissions', []);
+            $role->syncPermissionsBySlug($permissions);
+            $this->audit->record('role.permissions_set', $role, ['permissions' => $permissions]);
 
             return $role;
         });
@@ -44,7 +48,13 @@ class RoleService
                 'description' => Arr::get($data, 'description'),
             ]);
 
-            $role->syncPermissionsBySlug(Arr::get($data, 'permissions', []));
+            $old = $role->permissions->pluck('slug')->sort()->values()->all();
+            $new = collect(Arr::get($data, 'permissions', []))->map('strval')->sort()->values()->all();
+            $role->syncPermissionsBySlug($new);
+
+            if ($old !== $new) {
+                $this->audit->record('role.permissions_changed', $role, ['old' => $old, 'new' => $new]);
+            }
 
             return $role;
         });

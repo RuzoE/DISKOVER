@@ -30,7 +30,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 8 — Motor de recomendaciones | ✅ Completada |
 | Fase 9 — Experiencias inmersivas | ✅ Completada |
 | Fase 10 — Reportes | ✅ Completada |
-| Fases 11–13 | ⏳ Pendientes |
+| Fase 11 — Auditoría y seguridad avanzada | ✅ Completada |
+| Fases 12–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -49,3 +50,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0011](architecture/ADR-0011-motor-de-recomendaciones.md) | Motor de recomendaciones (reglas, sin IA) |
 | [0012](architecture/ADR-0012-experiencias-inmersivas-y-api.md) | Experiencias inmersivas e integración Laravel ↔ Unity |
 | [0013](architecture/ADR-0013-modulo-de-reportes.md) | Módulo de reportes y exportación |
+| [0014](architecture/ADR-0014-auditoria-y-seguridad-avanzada.md) | Auditoría, permisos directos, cabeceras de seguridad y backups |

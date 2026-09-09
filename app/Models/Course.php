@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AcademicStatus;
 use App\Enums\EnrollmentStatus;
+use App\Models\Concerns\Auditable;
 use Database\Factories\CourseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Course extends Model
 {
     /** @use HasFactory<CourseFactory> */
-    use HasFactory;
+    use Auditable, HasFactory;
 
     protected $fillable = [
         'code',
