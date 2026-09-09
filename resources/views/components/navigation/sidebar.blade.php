@@ -43,6 +43,14 @@
                     </a>
                 @endcan
 
+                @can('viewAny', App\Models\ImmersiveExperience::class)
+                    <a href="{{ route('immersive.experiences.index') }}"
+                       class="sidebar__link {{ request()->routeIs('immersive.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="cap" />
+                        <span>Experiencias inmersivas</span>
+                    </a>
+                @endcan
+
                 @if ($isTeacher)
                     <a href="{{ route('teacher.subjects.index') }}"
                        class="sidebar__link {{ request()->routeIs('teacher.*') ? 'is-active' : '' }}">
@@ -71,6 +79,11 @@
                        class="sidebar__link {{ request()->routeIs('student.recommendations.*') ? 'is-active' : '' }}">
                         <x-ui.icon name="clipboard" />
                         <span>Recomendaciones</span>
+                    </a>
+                    <a href="{{ route('student.immersive.index') }}"
+                       class="sidebar__link {{ request()->routeIs('student.immersive.*') ? 'is-active' : '' }}">
+                        <x-ui.icon name="cap" />
+                        <span>Experiencias VR/AR</span>
                     </a>
                 @endif
             </div>
@@ -106,14 +119,14 @@
         <div class="sidebar__group">
             <p class="sidebar__group-label">Próximamente</p>
             <span class="sidebar__link is-disabled">
-                <x-ui.icon name="cap" />
-                <span>Experiencias inmersivas</span>
-                <em class="sidebar__badge">Fase 9</em>
-            </span>
-            <span class="sidebar__link is-disabled">
                 <x-ui.icon name="clipboard" />
                 <span>Reportes</span>
                 <em class="sidebar__badge">Fase 10</em>
+            </span>
+            <span class="sidebar__link is-disabled">
+                <x-ui.icon name="shield" />
+                <span>Auditoría avanzada</span>
+                <em class="sidebar__badge">Fase 11</em>
             </span>
         </div>
     </nav>

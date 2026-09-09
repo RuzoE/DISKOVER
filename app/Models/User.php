@@ -142,4 +142,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recommendation::class);
     }
+
+    /**
+     * Sesiones de experiencias inmersivas del usuario como estudiante.
+     *
+     * @return HasMany<ImmersiveSession, $this>
+     */
+    public function immersiveSessions(): HasMany
+    {
+        return $this->hasMany(ImmersiveSession::class, 'student_id')->latest('started_at');
+    }
 }

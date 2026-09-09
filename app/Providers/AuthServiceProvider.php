@@ -9,6 +9,7 @@ use App\Models\Content;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
+use App\Models\ImmersiveExperience;
 use App\Models\Permission;
 use App\Models\Recommendation;
 use App\Models\Role;
@@ -21,6 +22,7 @@ use App\Policies\ContentPolicy;
 use App\Policies\CoursePolicy;
 use App\Policies\EnrollmentPolicy;
 use App\Policies\GradePolicy;
+use App\Policies\ImmersiveExperiencePolicy;
 use App\Policies\RecommendationPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\SubjectPolicy;
@@ -49,6 +51,7 @@ class AuthServiceProvider extends ServiceProvider
         Grade::class => GradePolicy::class,
         AiConversation::class => AiConversationPolicy::class,
         Recommendation::class => RecommendationPolicy::class,
+        ImmersiveExperience::class => ImmersiveExperiencePolicy::class,
     ];
 
     public function boot(): void

@@ -57,6 +57,14 @@ class Activity extends Model
     }
 
     /**
+     * @return HasOne<ImmersiveExperience, $this>
+     */
+    public function immersiveExperience(): HasOne
+    {
+        return $this->hasOne(ImmersiveExperience::class);
+    }
+
+    /**
      * @return HasMany<Grade, $this>
      */
     public function grades(): HasMany

@@ -7,6 +7,7 @@ use Database\Factories\SubjectFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
@@ -62,6 +63,14 @@ class Subject extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class)->orderBy('position')->orderBy('id');
+    }
+
+    /**
+     * @return BelongsToMany<ImmersiveExperience, $this>
+     */
+    public function immersiveExperiences(): BelongsToMany
+    {
+        return $this->belongsToMany(ImmersiveExperience::class, 'experience_subject')->withPivot('is_required');
     }
 
     public function isTaughtBy(User $user): bool

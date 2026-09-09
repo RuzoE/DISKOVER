@@ -15,10 +15,12 @@ use App\Http\Controllers\Coordinator\EnrollmentController as CoordinatorEnrollme
 use App\Http\Controllers\Coordinator\ProgressController as CoordinatorProgressController;
 use App\Http\Controllers\Coordinator\SubjectController as CoordinatorSubjectController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Immersive\ExperienceController as ImmersiveExperienceController;
 use App\Http\Controllers\Student\ActivityController as StudentActivityController;
 use App\Http\Controllers\Student\AttemptController as StudentAttemptController;
 use App\Http\Controllers\Student\ContentController as StudentContentController;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\ImmersiveController as StudentImmersiveController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Student\ProgressController as StudentProgressController;
 use App\Http\Controllers\Student\RecommendationController as StudentRecommendationController;
@@ -116,6 +118,23 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::resource('courses.enrollments', CoordinatorEnrollmentController::class)
             ->shallow()
             ->only(['index', 'store', 'update', 'destroy']);
+    });
+
+    /*
+    | Experiencias inmersivas — catálogo (coordinación / administración)
+    */
+    Route::middleware('role:admin,coordinator')->prefix('immersive')->name('immersive.')->group(function () {
+        Route::resource('experiences', ImmersiveExperienceController::class);
+    });
+
+    /*
+    | Experiencias inmersivas — consumo del estudiante
+    */
+    Route::middleware('role:admin,student')->prefix('student/immersive')->name('student.immersive.')->group(function () {
+        Route::get('/', [StudentImmersiveController::class, 'index'])->name('index');
+        Route::post('experiences/{experience}/launch', [StudentImmersiveController::class, 'launch'])->name('launch');
+        Route::get('sessions/{session}', [StudentImmersiveController::class, 'session'])->name('session');
+        Route::post('sessions/{session}/abandon', [StudentImmersiveController::class, 'abandon'])->name('abandon');
     });
 
     /*

@@ -4,6 +4,7 @@ import { initContentForm } from './modules/teacher/content-form';
 import { initQuestionForm } from './modules/teacher/question-form';
 import { initQuizTimer } from './modules/student/quiz';
 import { initAssistant } from './modules/ai/assistant';
+import { initImmersiveSimulator } from './modules/immersive/simulator';
 import { initShell } from './modules/layout/shell';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,4 +14,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initQuestionForm();
     initQuizTimer();
     initAssistant();
+    initImmersiveSimulator();
 });

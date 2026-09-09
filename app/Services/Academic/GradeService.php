@@ -36,9 +36,44 @@ class GradeService
     }
 
     /**
+     * Calificación derivada del resultado de una experiencia inmersiva. Escala
+     * la puntuación al máximo de la actividad. No pisa una nota manual.
+     */
+    public function setFromImmersive(Activity $activity, User $student, float $score, float $sourceMax): ?Grade
+    {
+        $existing = Grade::where('activity_id', $activity->id)
+            ->where('student_id', $student->id)
+            ->first();
+
+        if ($existing && $existing->source === GradeSource::Manual) {
+            return $existing;
+        }
+
+        $scaled = $sourceMax > 0
+            ? round($score / $sourceMax * (float) $activity->max_score, 2)
+            : 0.0;
+
+        $grade = Grade::updateOrCreate(
+            ['activity_id' => $activity->id, 'student_id' => $student->id],
+            [
+                'score' => $scaled,
+                'source' => GradeSource::Immersive,
+                'graded_by' => null,
+                'graded_at' => now(),
+            ],
+        );
+
+        $grade->setRelation('activity', $activity);
+        $grade->setRelation('student', $student);
+        ActivityGraded::dispatch($grade);
+
+        return $grade;
+    }
+
+    /**
      * Deriva (o actualiza) la calificación de una evaluación a partir del
      * mejor intento calificado del estudiante. Se llama tras cada envío o
-     * revisión. No pisa una calificación manual existente.
+     * revisión. No pisa una calificación manual o inmersiva existente.
      */
     public function syncFromBestAttempt(Activity $activity, User $student): ?Grade
     {
@@ -46,7 +81,7 @@ class GradeService
             ->where('student_id', $student->id)
             ->first();
 
-        if ($existing && $existing->source === GradeSource::Manual) {
+        if ($existing && in_array($existing->source, [GradeSource::Manual, GradeSource::Immersive], true)) {
             return $existing;
         }
 

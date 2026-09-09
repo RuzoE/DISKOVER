@@ -28,7 +28,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 6 — Learning Analytics | ✅ Completada |
 | Fase 7 — Inteligencia artificial | ✅ Completada |
 | Fase 8 — Motor de recomendaciones | ✅ Completada |
-| Fases 9–13 | ⏳ Pendientes |
+| Fase 9 — Experiencias inmersivas | ✅ Completada |
+| Fases 10–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -45,3 +46,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0009](architecture/ADR-0009-learning-analytics-y-graficas.md) | Learning Analytics y gráficas propias |
 | [0010](architecture/ADR-0010-integracion-de-ia.md) | Integración de IA (asistente educativo) |
 | [0011](architecture/ADR-0011-motor-de-recomendaciones.md) | Motor de recomendaciones (reglas, sin IA) |
+| [0012](architecture/ADR-0012-experiencias-inmersivas-y-api.md) | Experiencias inmersivas e integración Laravel ↔ Unity |

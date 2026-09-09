@@ -88,4 +88,22 @@ return [
         'rate_limit_per_minute' => (int) env('DSLE_AI_RATE_LIMIT', 12),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Experiencias inmersivas (Fase 9)
+    |--------------------------------------------------------------------------
+    |
+    | Laravel registra experiencias y sesiones; Unity ejecuta la experiencia y
+    | usa la API /api/v1/immersive con el token de la sesión. Ver ADR-0012.
+    |
+    | session_ttl_minutes: tras este tiempo, una sesión «started» se considera
+    |   caducada y no admite resultados.
+    | api_rate_limit_per_minute: límite de la API inmersiva por token/IP.
+    |
+    */
+    'immersive' => [
+        'session_ttl_minutes' => (int) env('DSLE_IMMERSIVE_SESSION_TTL', 360),
+        'api_rate_limit_per_minute' => (int) env('DSLE_IMMERSIVE_API_RATE_LIMIT', 60),
+    ],
+
 ];

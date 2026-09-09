@@ -36,6 +36,9 @@ class RolePermissionSeeder extends Seeder
         'contents.manage' => ['Gestionar contenidos', 'academic', 'Crear, editar y eliminar contenidos de las asignaturas que imparte.'],
         'activities.manage' => ['Gestionar actividades', 'academic', 'Crear actividades y evaluaciones con sus preguntas en las asignaturas que imparte.'],
         'grades.manage' => ['Gestionar calificaciones', 'academic', 'Calificar trabajos y revisar intentos de evaluación.'],
+
+        // Experiencias inmersivas (Fase 9)
+        'immersive.manage' => ['Gestionar experiencias inmersivas', 'immersive', 'Registrar experiencias inmersivas y vincularlas a asignaturas y actividades.'],
     ];
 
     /**
@@ -57,6 +60,7 @@ class RolePermissionSeeder extends Seeder
                 'permissions' => [
                     'users.view', 'roles.view',
                     'courses.manage', 'subjects.manage', 'enrollments.manage',
+                    'immersive.manage',
                 ],
             ],
             RoleSlug::Teacher->value => [

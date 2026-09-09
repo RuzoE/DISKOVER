@@ -78,7 +78,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 6 | Learning Analytics (evolución, distribución, dificultades) | ✅ |
 | 7 | Inteligencia artificial (asistente educativo + contexto) | ✅ |
 | 8 | Motor de recomendaciones (reglas + seguimiento) | ✅ |
-| 9 | Experiencia inmersiva (Unity) | ⏳ |
+| 9 | Experiencias inmersivas (Unity, API de sesiones y resultados) | ✅ |
 | 10 | Reportes | ⏳ |
 | 11 | Auditoría y seguridad avanzada | ⏳ |
 | 12 | Pruebas | ⏳ |

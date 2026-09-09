@@ -7,6 +7,7 @@ use App\Enums\ActivityType;
 use App\Enums\ContentType;
 use App\Enums\EnrollmentStatus;
 use App\Enums\GradeSource;
+use App\Enums\ImmersiveProvider;
 use App\Enums\LearningEventType;
 use App\Enums\QuestionType;
 use App\Models\Activity;
@@ -14,6 +15,7 @@ use App\Models\Content;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Grade;
+use App\Models\ImmersiveExperience;
 use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
@@ -119,6 +121,35 @@ class DemoAcademicSeeder extends Seeder
                 'is_published' => true,
             ],
         );
+
+        // Actividad + experiencia inmersiva vinculada (Fase 9).
+        $labActivity = Activity::updateOrCreate(
+            ['subject_id' => $subject->id, 'title' => 'Laboratorio virtual: recorrido'],
+            [
+                'type' => ActivityType::Task->value,
+                'description' => 'Completa el recorrido guiado del laboratorio en VR.',
+                'max_score' => 100,
+                'due_at' => now()->addWeeks(4),
+                'position' => 4,
+                'is_published' => true,
+            ],
+        );
+
+        $experience = ImmersiveExperience::updateOrCreate(
+            ['slug' => 'lab-virtual-recorrido'],
+            [
+                'title' => 'Laboratorio virtual — recorrido guiado',
+                'description' => 'Recorrido inmersivo por el laboratorio de la asignatura.',
+                'provider' => ImmersiveProvider::Simulator->value,
+                'launch_url' => null,
+                'config' => ['scene' => 'lab-01', 'difficulty' => 'normal'],
+                'max_score' => 100,
+                'status' => AcademicStatus::Active->value,
+                'activity_id' => $labActivity->id,
+                'created_by' => $teacher?->id,
+            ],
+        );
+        $experience->subjects()->syncWithoutDetaching([$subject->id => ['is_required' => false]]);
 
         if ($evaluation->questions()->count() === 0) {
             $q1 = $evaluation->questions()->create([
