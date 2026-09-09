@@ -5,19 +5,14 @@ namespace Tests\Feature\Reports;
 use App\Models\Course;
 use App\Models\Subject;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class ReportHttpTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_coordinator_can_open_and_export_the_institutional_report(): void
     {

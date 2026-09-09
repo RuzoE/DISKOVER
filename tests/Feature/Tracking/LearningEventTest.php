@@ -15,19 +15,14 @@ use App\Models\User;
 use App\Services\Academic\AttemptService;
 use App\Services\Academic\EnrollmentService;
 use App\Services\Academic\GradeService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class LearningEventTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_enrolling_records_a_learning_event(): void
     {

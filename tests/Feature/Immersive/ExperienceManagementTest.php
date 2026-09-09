@@ -7,19 +7,14 @@ use App\Enums\RoleSlug;
 use App\Models\ImmersiveExperience;
 use App\Models\Subject;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class ExperienceManagementTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     private function coordinator(): User
     {

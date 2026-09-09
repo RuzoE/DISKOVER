@@ -14,19 +14,14 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
 use App\Services\Academic\GradeService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class GradingTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_teacher_grades_a_task_manually(): void
     {

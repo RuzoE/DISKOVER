@@ -11,19 +11,14 @@ use App\Models\User;
 use App\Services\Reports\CourseAcademicReport;
 use App\Services\Reports\InstitutionalReport;
 use App\Services\Reports\StudentTranscriptReport;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class ReportContentTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_course_academic_report_flags_pass_and_fail(): void
     {

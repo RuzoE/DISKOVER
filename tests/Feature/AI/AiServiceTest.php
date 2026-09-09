@@ -14,19 +14,14 @@ use App\Models\User;
 use App\Services\AI\AiService;
 use App\Services\AI\Contracts\AiProvider;
 use App\Services\AI\Exceptions\AiException;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class AiServiceTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_default_binding_is_the_stub_provider(): void
     {

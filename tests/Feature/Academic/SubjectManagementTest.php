@@ -6,19 +6,14 @@ use App\Enums\AcademicStatus;
 use App\Enums\RoleSlug;
 use App\Models\Course;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class SubjectManagementTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_coordinator_creates_subject_and_assigns_teacher(): void
     {

@@ -16,20 +16,15 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
 use App\Services\Recommendations\RecommendationEngine;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class RecommendationEngineTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     private function enrolledStudent(Course $course): User
     {

@@ -12,19 +12,14 @@ use App\Models\Recommendation;
 use App\Models\Subject;
 use App\Models\User;
 use App\Services\Recommendations\RecommendationService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class RecommendationServiceTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     private function scenarioWithOverdue(): array
     {

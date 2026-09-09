@@ -10,19 +10,14 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\User;
 use App\Services\Analytics\PerformanceAnalyticsService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class CourseAnalyticsTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     private function courseWithData(): Course
     {

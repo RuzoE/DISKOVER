@@ -11,19 +11,14 @@ use App\Models\Question;
 use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_guest_is_redirected_to_login(): void
     {

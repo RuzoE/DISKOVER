@@ -13,19 +13,14 @@ use App\Models\Subject;
 use App\Models\User;
 use App\Services\Academic\AttemptService;
 use App\Services\Analytics\AssessmentAnalyticsService;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class SubjectAnalyticsTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_teacher_owner_sees_subject_analytics_with_at_risk_student(): void
     {

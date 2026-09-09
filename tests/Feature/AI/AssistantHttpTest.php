@@ -5,19 +5,14 @@ namespace Tests\Feature\AI;
 use App\Enums\RoleSlug;
 use App\Models\AiConversation;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class AssistantHttpTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_user_starts_a_conversation_and_gets_a_reply(): void
     {

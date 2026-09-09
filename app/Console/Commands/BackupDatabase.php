@@ -5,11 +5,12 @@ namespace App\Console\Commands;
 use App\Services\Security\AuditLogger;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 /**
- * Copia de seguridad de la base de datos MySQL con `mysqldump`, comprimida con
- * gzip y con rotación (se conservan las N más recientes). Ver ADR-0014.
+ * Copia de seguridad de la base de datos MySQL con `mysqldump` (opción nativa
+ * `--result-file`, sin tubería de shell), comprimida con gzip en PHP y con
+ * rotación (se conservan las N más recientes). Ver ADR-0014.
  */
 class BackupDatabase extends Command
 {
@@ -31,41 +32,44 @@ class BackupDatabase extends Command
         $path = config('dsle.backups.path');
         File::ensureDirectoryExists($path);
 
-        $filename = 'dsle-'.now()->format('Ymd-His').'.sql.gz';
-        $target = $path.DIRECTORY_SEPARATOR.$filename;
+        $stamp = now()->format('Ymd-His');
+        $sqlFile = $path.DIRECTORY_SEPARATOR."dsle-{$stamp}.sql";
+        $gzFile = $sqlFile.'.gz';
 
-        $dump = config('dsle.backups.mysqldump_path', 'mysqldump');
+        $result = Process::timeout(600)
+            ->env(['MYSQL_PWD' => (string) $db['password']])
+            ->run([
+                config('dsle.backups.mysqldump_path', 'mysqldump'),
+                '--host='.$db['host'],
+                '--port='.$db['port'],
+                '--user='.$db['username'],
+                '--single-transaction',
+                '--quick',
+                '--no-tablespaces',
+                '--result-file='.$sqlFile,
+                $db['database'],
+            ]);
 
-        $process = Process::fromShellCommandline(
-            escapeshellarg($dump)
-            .' --host='.escapeshellarg((string) $db['host'])
-            .' --port='.escapeshellarg((string) $db['port'])
-            .' --user='.escapeshellarg((string) $db['username'])
-            .' --single-transaction --quick --no-tablespaces '
-            .escapeshellarg((string) $db['database'])
-            .' | gzip > '.escapeshellarg($target),
-        );
-
-        $process->setTimeout(600);
-        $process->setEnv(['MYSQL_PWD' => (string) $db['password']]);
-        $process->run();
-
-        if (! $process->isSuccessful() || ! File::exists($target) || File::size($target) === 0) {
-            @File::delete($target);
-            $this->error('mysqldump falló: '.trim($process->getErrorOutput()));
+        if (! $result->successful() || ! File::exists($sqlFile) || File::size($sqlFile) === 0) {
+            @File::delete($sqlFile);
+            $reason = trim($result->errorOutput()) ?: 'el volcado quedó vacío.';
+            $this->error('mysqldump falló: '.$reason);
 
             return self::FAILURE;
         }
 
+        File::put($gzFile, gzencode(File::get($sqlFile), 9));
+        File::delete($sqlFile);
+
         $keep = (int) ($this->option('keep') ?? config('dsle.backups.keep', 7));
         $removed = $this->rotate($path, $keep);
 
-        $sizeKb = round(File::size($target) / 1024, 1);
-        $this->info("Copia creada: {$filename} ({$sizeKb} KB). Copias eliminadas por rotación: {$removed}.");
+        $sizeKb = round(File::size($gzFile) / 1024, 1);
+        $this->info('Copia creada: '.basename($gzFile)." ({$sizeKb} KB). Copias eliminadas por rotación: {$removed}.");
 
         $audit->record('backup.created', null, [
-            'file' => $filename,
-            'size_bytes' => File::size($target),
+            'file' => basename($gzFile),
+            'size_bytes' => File::size($gzFile),
             'rotated_out' => $removed,
         ], 'Copia de seguridad de la base de datos');
 

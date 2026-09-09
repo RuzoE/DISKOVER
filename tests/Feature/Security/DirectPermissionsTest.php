@@ -5,19 +5,14 @@ namespace Tests\Feature\Security;
 use App\Enums\RoleSlug;
 use App\Enums\UserStatus;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class DirectPermissionsTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_direct_permission_grants_access_without_a_role(): void
     {

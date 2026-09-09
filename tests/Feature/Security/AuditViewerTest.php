@@ -5,19 +5,14 @@ namespace Tests\Feature\Security;
 use App\Enums\RoleSlug;
 use App\Models\User;
 use App\Services\Security\AuditLogger;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class AuditViewerTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_admin_can_open_the_audit_viewer(): void
     {

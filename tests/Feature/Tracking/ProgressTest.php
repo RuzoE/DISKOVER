@@ -9,19 +9,14 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\User;
 use App\Services\Analytics\ProgressCalculator;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class ProgressTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_subject_progress_counts_contents_and_activities(): void
     {

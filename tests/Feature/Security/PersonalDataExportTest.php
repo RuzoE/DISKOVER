@@ -5,19 +5,14 @@ namespace Tests\Feature\Security;
 use App\Enums\RoleSlug;
 use App\Models\User;
 use App\Services\Reports\PersonalDataReport;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Concerns\InteractsWithRoles;
 use Tests\TestCase;
 
 class PersonalDataExportTest extends TestCase
 {
+    use InteractsWithRoles;
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolePermissionSeeder::class);
-    }
 
     public function test_student_can_download_their_own_data_as_csv(): void
     {
