@@ -59,13 +59,33 @@ Tras `php artisan db:seed` existe un administrador inicial
 # Una sola vez: base de datos de pruebas (el entorno no tiene pdo_sqlite)
 mysql -uroot -e "CREATE DATABASE diskover_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-composer test            # php artisan test (223 pruebas)
+composer test            # php artisan test (226 pruebas)
 composer lint            # vendor/bin/pint --test
 composer check           # lint + test
 ```
 
 Detalles del andamiaje y las convenciones: [`tests/README.md`](tests/README.md).
 CI en cada push a `main`: [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+## Despliegue
+
+**Contenedores** (pila completa: app + nginx + mysql + scheduler + queue):
+
+```bash
+cp .env.production.example .env      # rellena APP_KEY y contraseñas
+docker compose up -d --build
+docker compose exec app php artisan db:seed --class=RolePermissionSeeder --force
+```
+
+**Host tradicional** (PHP-FPM + Nginx, o Laragon):
+
+```bash
+./deploy/deploy.sh main
+```
+
+El programador (`dsle:backup` diario, ADR-0014) lo ejecuta el servicio
+`scheduler` de compose o la línea de cron de `deploy/dsle-scheduler.cron`.
+Ver [ADR-0016](docs/architecture/ADR-0016-devops-y-despliegue.md).
 
 ## Desarrollo por fases
 
@@ -87,7 +107,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 10 | Reportes (académicos, desempeño, institucionales, CSV) | ✅ |
 | 11 | Auditoría y seguridad avanzada (registro append-only, permisos directos, cabeceras, backups) | ✅ |
 | 12 | Pruebas e integración continua (andamiaje `InteractsWithRoles`, 223 pruebas, CI GitHub Actions) | ✅ |
-| 13 | DevOps | ⏳ |
+| 13 | DevOps: imagen multi-stage, docker-compose (nginx/db/scheduler/queue), `deploy/deploy.sh` | ✅ |
 
 ## Repositorio
 

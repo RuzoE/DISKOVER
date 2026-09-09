@@ -140,15 +140,6 @@
                 @endcan
             </div>
         @endif
-
-        <div class="sidebar__group">
-            <p class="sidebar__group-label">Próximamente</p>
-            <span class="sidebar__link is-disabled">
-                <x-ui.icon name="stack" />
-                <span>DevOps y despliegue</span>
-                <em class="sidebar__badge">Fase 13</em>
-            </span>
-        </div>
     </nav>
 
     <div class="sidebar__user">

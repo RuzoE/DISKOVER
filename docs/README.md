@@ -32,7 +32,9 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 10 — Reportes | ✅ Completada |
 | Fase 11 — Auditoría y seguridad avanzada | ✅ Completada |
 | Fase 12 — Pruebas e integración continua | ✅ Completada |
-| Fase 13 — DevOps | ⏳ Pendiente |
+| Fase 13 — DevOps: empaquetado y despliegue | ✅ Completada |
+
+**Proyecto completo (fases 0–13).**
 
 ## ADR
 
@@ -53,3 +55,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0013](architecture/ADR-0013-modulo-de-reportes.md) | Módulo de reportes y exportación |
 | [0014](architecture/ADR-0014-auditoria-y-seguridad-avanzada.md) | Auditoría, permisos directos, cabeceras de seguridad y backups |
 | [0015](architecture/ADR-0015-estrategia-de-pruebas.md) | Estrategia de pruebas e integración continua |
+| [0016](architecture/ADR-0016-devops-y-despliegue.md) | DevOps: empaquetado, despliegue y operación |

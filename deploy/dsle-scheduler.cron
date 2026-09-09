@@ -1,0 +1,9 @@
+# Programador de tareas de DSLE (Laravel Scheduler).
+# Instala esta línea en el crontab del usuario que ejecuta la aplicación:
+#
+#   crontab -e
+#
+# Ajusta la ruta al proyecto. El scheduler decide qué corre y cuándo
+# (dsle:backup es diario a las 02:30); este cron sólo lo despierta cada minuto.
+
+* * * * * cd /var/www/dsle && php artisan schedule:run >> /dev/null 2>&1
