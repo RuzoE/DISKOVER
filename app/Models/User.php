@@ -122,4 +122,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(LearningEvent::class)->latest('occurred_at');
     }
+
+    /**
+     * Conversaciones del usuario con el asistente de IA.
+     *
+     * @return HasMany<AiConversation, $this>
+     */
+    public function aiConversations(): HasMany
+    {
+        return $this->hasMany(AiConversation::class)->latest('last_message_at');
+    }
 }

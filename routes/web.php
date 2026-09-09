@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AI\AssistantController;
 use App\Http\Controllers\Analytics\CourseAnalyticsController;
 use App\Http\Controllers\Analytics\StudentAnalyticsController;
 use App\Http\Controllers\Analytics\SubjectAnalyticsController;
@@ -78,6 +79,18 @@ Route::middleware(['auth', 'active'])->group(function () {
         Route::get('permissions', [PermissionController::class, 'index'])
             ->middleware('permission:roles.view')
             ->name('permissions.index');
+    });
+
+    /*
+    | Asistente educativo de IA
+    */
+    Route::prefix('assistant')->name('assistant.')->group(function () {
+        Route::get('/', [AssistantController::class, 'index'])->name('index');
+        Route::post('/', [AssistantController::class, 'store'])->middleware('throttle:ai')->name('store');
+        Route::get('{conversation}', [AssistantController::class, 'show'])->name('show');
+        Route::post('{conversation}/messages', [AssistantController::class, 'message'])
+            ->middleware('throttle:ai')->name('message');
+        Route::delete('{conversation}', [AssistantController::class, 'destroy'])->name('destroy');
     });
 
     /*

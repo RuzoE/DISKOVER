@@ -26,7 +26,8 @@ Esta carpeta concentra la documentación viva del proyecto.
 | Fase 4 — Seguimiento del aprendizaje | ✅ Completada |
 | Fase 5 — Dashboards | ✅ Completada |
 | Fase 6 — Learning Analytics | ✅ Completada |
-| Fases 7–13 | ⏳ Pendientes |
+| Fase 7 — Inteligencia artificial | ✅ Completada |
+| Fases 8–13 | ⏳ Pendientes |
 
 ## ADR
 
@@ -41,3 +42,4 @@ Esta carpeta concentra la documentación viva del proyecto.
 | [0007](architecture/ADR-0007-seguimiento-del-aprendizaje.md) | Seguimiento del aprendizaje (progreso, eventos, perfil) |
 | [0008](architecture/ADR-0008-dashboards-por-rol.md) | Dashboards por rol |
 | [0009](architecture/ADR-0009-learning-analytics-y-graficas.md) | Learning Analytics y gráficas propias |
+| [0010](architecture/ADR-0010-integracion-de-ia.md) | Integración de IA (asistente educativo) |

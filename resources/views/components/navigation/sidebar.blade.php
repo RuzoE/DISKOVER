@@ -24,6 +24,11 @@
                 <x-ui.icon name="home" />
                 <span>Panel principal</span>
             </a>
+            <a href="{{ route('assistant.index') }}"
+               class="sidebar__link {{ request()->routeIs('assistant.*') ? 'is-active' : '' }}">
+                <x-ui.icon name="sparkles" />
+                <span>Asistente IA</span>
+            </a>
         </div>
 
         @if ($user?->can('viewAny', App\Models\Course::class) || $isTeacher || $isStudent)
@@ -97,8 +102,8 @@
             <p class="sidebar__group-label">Próximamente</p>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="sparkles" />
-                <span>Asistente IA y recomendaciones</span>
-                <em class="sidebar__badge">Fase 7–8</em>
+                <span>Recomendaciones personalizadas</span>
+                <em class="sidebar__badge">Fase 8</em>
             </span>
             <span class="sidebar__link is-disabled">
                 <x-ui.icon name="cap" />

@@ -3,6 +3,7 @@ import { initConfirmForms } from './utils/confirm';
 import { initContentForm } from './modules/teacher/content-form';
 import { initQuestionForm } from './modules/teacher/question-form';
 import { initQuizTimer } from './modules/student/quiz';
+import { initAssistant } from './modules/ai/assistant';
 import { initShell } from './modules/layout/shell';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,4 +12,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initContentForm();
     initQuestionForm();
     initQuizTimer();
+    initAssistant();
 });

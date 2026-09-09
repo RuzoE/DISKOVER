@@ -64,4 +64,28 @@ return [
         'weak_question_rate' => (float) env('DSLE_WEAK_QUESTION_RATE', 0.5),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Inteligencia artificial (asistente educativo)
+    |--------------------------------------------------------------------------
+    |
+    | La IA está aislada tras App\Services\AI\Contracts\AiProvider. Si no hay
+    | proveedor configurado (o falta la clave), se usa StubAiProvider, que
+    | responde sin red a partir del contexto académico. Ver ADR-0010.
+    |
+    | provider:  null | 'openai'  (compatible con la API de chat de OpenAI:
+    |            OpenAI, Groq, OpenRouter, Ollama…). Las claves van SOLO en .env.
+    |
+    */
+    'ai' => [
+        'provider' => env('DSLE_AI_PROVIDER') ?: null,
+        'base_url' => rtrim((string) env('DSLE_AI_BASE_URL', 'https://api.openai.com/v1'), '/'),
+        'api_key' => env('DSLE_AI_API_KEY'),
+        'model' => env('DSLE_AI_MODEL', 'gpt-4o-mini'),
+        'timeout' => (int) env('DSLE_AI_TIMEOUT', 30),
+        'temperature' => (float) env('DSLE_AI_TEMPERATURE', 0.4),
+        'max_history' => (int) env('DSLE_AI_MAX_HISTORY', 12),
+        'rate_limit_per_minute' => (int) env('DSLE_AI_RATE_LIMIT', 12),
+    ],
+
 ];
