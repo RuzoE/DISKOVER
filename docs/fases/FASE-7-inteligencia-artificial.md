@@ -152,3 +152,89 @@ guardan y se pueden retomar/eliminar, y todo funciona sin ninguna cuenta de IA.
 - **Fase 8 (motor de recomendaciones)** será un módulo **separado** de la IA
   generativa (sección 17): reglas sobre resultados/progreso, no llamadas a IA.
 - Posible mejora futura: *streaming* de la respuesta y caché del contexto académico.
+
+---
+
+## 11. Ampliación (2026-09-26) — Tutor flotante e integridad académica
+
+Ver **ADR-0017**. El asistente pasa a ser un tutor disponible desde cualquier
+página para el estudiante (y el administrador, para pruebas) que responde qué
+trabajos le faltan, dudas sobre sus temas y cómo va su progreso, **sin hacerle la
+tarea**.
+
+### Archivos creados
+```
+app/Services/AI/AcademicIntegrityGuard.php          # reglas de bloqueo / modo guiado
+app/Services/AI/Exceptions/AiRateLimitedException.php
+app/Services/Academic/StudentWorkloadService.php    # pendientes, contenidos, notas, intentos en curso
+app/DTOs/AI/IntegrityVerdict.php
+app/Enums/IntegrityAction.php
+app/Http/Requests/AI/QuickMessageRequest.php
+database/migrations/2026_09_26_100001_add_integrity_to_ai_messages_table.php
+resources/views/components/ai/floating-assistant.blade.php
+resources/js/modules/ai/quick-assistant.js
+resources/css/components/quick-assistant.css
+tests/Fakes/SpyAiProvider.php
+tests/Feature/AI/AcademicIntegrityTest.php
+tests/Feature/AI/QuickAssistantHttpTest.php
+docs/architecture/ADR-0017-integridad-academica-en-ia.md
+```
+
+### Archivos modificados
+```
+app/Services/AI/AcademicContextBuilder.php   # pendientes (máx. 10), próximos 7 días, contenidos sin completar,
+                                             #   últimas 3 notas con retroalimentación; sólo el primer nombre
+app/Services/AI/PromptManager.php            # nuevo prompt del tutor + instrucción de modo guiado;
+                                             #   excluye del historial los mensajes bloqueados.
+                                             #   Corrección: el historial toma los últimos max_history
+                                             #   mensajes en orden cronológico (antes, los más antiguos)
+app/Services/AI/AiService.php                # integra el guard + auditoría, quickMessage(), aviso 429.
+                                             #   Corrección: el mensaje nuevo ya no se envía duplicado
+                                             #   (antes aparecía en el historial y otra vez al final)
+app/Services/AI/Providers/OpenAiCompatibleProvider.php  # max_tokens; 429 -> AiRateLimitedException
+app/Http/Controllers/AI/AssistantController.php          # acción quick() (JSON)
+app/Models/AiMessage.php · app/Models/AiConversation.php  # campo integrity; etiqueta «Asistente rápido»
+config/dsle.php                              # dsle.ai.max_tokens, dsle.ai.integrity
+routes/web.php                               # POST assistant/quick (role:admin,student + throttle:ai)
+resources/views/layouts/app.blade.php        # <x-ai.floating-assistant />
+resources/views/components/ai/bubble.blade.php  # estilo de aviso para mensajes bloqueados
+resources/js/app.js · resources/css/app.css · resources/css/utilities/helpers.css (u-sr-only)
+.env.example · README.md                     # variables de Groq y pasos en Laravel Cloud
+```
+
+### Ruta nueva
+```
+POST   assistant/quick                 assistant.quick    (auth, active, role:admin,student, throttle:ai, CSRF)
+```
+
+### Configuración (Groq)
+```dotenv
+DSLE_AI_PROVIDER=openai
+DSLE_AI_BASE_URL=https://api.groq.com/openai/v1
+DSLE_AI_MODEL=llama-3.3-70b-versatile
+DSLE_AI_API_KEY=
+DSLE_AI_MAX_TOKENS=500
+DSLE_AI_INTEGRITY=true
+```
+
+### Pruebas nuevas
+- Contexto: incluye pendientes y vencidas propias, próximos 7 días, contenidos y
+  retroalimentación; excluye datos de otros estudiantes, enunciados y opciones.
+- Integridad: pregunta normal → proveedor; intento en curso → el proveedor no
+  recibe nada; enunciado copiado u opciones de evaluación abierta → bloqueo;
+  evaluación cerrada → no bloquea; «Hazme la tarea» y título de tarea pendiente →
+  modo guiado + auditoría; docentes sin restricciones; sólo llega el primer nombre;
+  los mensajes bloqueados no se reenvían en el historial.
+- `/assistant/quick`: exige autenticación, responde JSON, reutiliza la conversación
+  rápida, valida, restringe por rol y aplica el límite de tasa.
+- Proveedor: envía `max_tokens`; 429 → `AiRateLimitedException` → aviso amable.
+
+### Checklist
+- [x] Backend — guard en `app/Services/AI`, consultas en `StudentWorkloadService`; controlador delgado
+- [x] Base de datos — columna `ai_messages.integrity` (nullable)
+- [x] Frontend — botón flotante y panel lateral, sugerencias, indicador «escribiendo», errores
+- [x] Validaciones — `QuickMessageRequest`
+- [x] Seguridad — autenticación, CSRF, rol, `throttle:ai`, auditoría `ai.integrity.*`, minimización de datos
+- [x] Responsive / accesibilidad — panel a pantalla completa en móvil; `aria-*`, foco, cierre con Escape
+- [x] Pruebas — proveedor falso (`SpyAiProvider`); nunca se llama a la API real
+- [x] Organización — conforme a ADR-0002, ADR-0004, ADR-0010 y ADR-0017

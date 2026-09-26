@@ -67,6 +67,33 @@ composer check           # lint + test
 Detalles del andamiaje y las convenciones: [`tests/README.md`](tests/README.md).
 CI en cada push a `main`: [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
+## Asistente de IA (Groq u otro proveedor compatible con OpenAI)
+
+Sin proveedor configurado, el asistente responde en **modo sin conexión**
+(`StubAiProvider`). Para usar Groq, define estas variables **sólo en el entorno**
+(`.env` en local o variables del entorno en Laravel Cloud), nunca en el código:
+
+```dotenv
+DSLE_AI_PROVIDER=openai
+DSLE_AI_BASE_URL=https://api.groq.com/openai/v1
+DSLE_AI_MODEL=llama-3.3-70b-versatile
+DSLE_AI_API_KEY=            # tu clave de Groq (console.groq.com/keys)
+DSLE_AI_MAX_TOKENS=500      # tope de tokens por respuesta
+DSLE_AI_INTEGRITY=true      # capa de integridad académica (ADR-0017)
+```
+
+**En Laravel Cloud:** entorno → *Settings* → *Environment variables* → pega las seis
+variables (la clave en `DSLE_AI_API_KEY`) → guarda y vuelve a publicar el entorno
+(botón *Deploy*) para que se apliquen. Comprueba que los comandos de publicación
+incluyan `php artisan migrate --force` (esta versión añade la columna
+`ai_messages.integrity`).
+
+Si Groq responde 429 (límite de uso), el estudiante ve: «El asistente está
+atendiendo muchas consultas; inténtalo en un minuto.» El tutor está disponible
+desde cualquier página (botón flotante *Asistente DSLE*) para estudiantes y
+administradores; no resuelve actividades evaluables. Ver
+[ADR-0017](docs/architecture/ADR-0017-integridad-academica-en-ia.md).
+
 ## Despliegue
 
 **Contenedores** (pila completa: app + nginx + mysql + scheduler + queue):
@@ -101,7 +128,7 @@ El proyecto se construye en fases consecutivas (0 → 13). El registro de cada f
 | 4 | Seguimiento del aprendizaje (progreso, historial, perfil) | ✅ |
 | 5 | Dashboards por rol (estudiante, docente, coordinación, admin) | ✅ |
 | 6 | Learning Analytics (evolución, distribución, dificultades) | ✅ |
-| 7 | Inteligencia artificial (asistente educativo + contexto) | ✅ |
+| 7 | Inteligencia artificial (tutor flotante, contexto ampliado, integridad académica) | ✅ |
 | 8 | Motor de recomendaciones (reglas + seguimiento) | ✅ |
 | 9 | Experiencias inmersivas (Unity, API de sesiones y resultados) | ✅ |
 | 10 | Reportes (académicos, desempeño, institucionales, CSV) | ✅ |

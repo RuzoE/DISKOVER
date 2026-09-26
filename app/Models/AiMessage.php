@@ -15,6 +15,7 @@ class AiMessage extends Model
         'prompt_tokens',
         'completion_tokens',
         'failed',
+        'integrity',
     ];
 
     protected function casts(): array

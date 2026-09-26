@@ -25,5 +25,7 @@
             </main>
         </div>
     </div>
+
+    <x-ai.floating-assistant />
 </body>
 </html>

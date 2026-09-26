@@ -75,6 +75,8 @@ return [
     |
     | provider:  null | 'openai'  (compatible con la API de chat de OpenAI:
     |            OpenAI, Groq, OpenRouter, Ollama…). Las claves van SOLO en .env.
+    | max_tokens: tope de tokens de cada respuesta del proveedor.
+    | integrity:  activa AcademicIntegrityGuard para estudiantes (ADR-0017).
     |
     */
     'ai' => [
@@ -86,6 +88,8 @@ return [
         'temperature' => (float) env('DSLE_AI_TEMPERATURE', 0.4),
         'max_history' => (int) env('DSLE_AI_MAX_HISTORY', 12),
         'rate_limit_per_minute' => (int) env('DSLE_AI_RATE_LIMIT', 12),
+        'max_tokens' => (int) env('DSLE_AI_MAX_TOKENS', 500),
+        'integrity' => filter_var(env('DSLE_AI_INTEGRITY', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
     /*

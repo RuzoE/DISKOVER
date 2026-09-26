@@ -10,3 +10,16 @@
 .u-gap-3 { gap: var(--space-3); }
 .u-items-center { align-items: center; }
 .u-justify-between { justify-content: space-between; }
+
+/* Oculto visualmente pero disponible para lectores de pantalla. */
+.u-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

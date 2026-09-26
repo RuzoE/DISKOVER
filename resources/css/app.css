@@ -27,6 +27,7 @@
 @import './components/dashboard.css';
 @import './components/charts.css';
 @import './components/chat.css';
+@import './components/quick-assistant.css';
 @import './components/recommendations.css';
 @import './components/immersive.css';
 

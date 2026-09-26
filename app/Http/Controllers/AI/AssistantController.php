@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\AI;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AI\QuickMessageRequest;
 use App\Http\Requests\AI\SendMessageRequest;
 use App\Http\Requests\AI\StoreConversationRequest;
 use App\Models\AiConversation;
 use App\Services\AI\AiService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\View;
 
 /**
@@ -60,6 +63,21 @@ class AssistantController extends Controller
         $this->ai->sendMessage($conversation, $request->user(), $request->string('message')->value());
 
         return redirect()->route('assistant.show', $conversation);
+    }
+
+    /**
+     * Asistente flotante: responde en JSON sin recargar la página.
+     */
+    public function quick(QuickMessageRequest $request): JsonResponse
+    {
+        $reply = $this->ai->quickMessage($request->user(), $request->string('message')->value());
+
+        return response()->json([
+            'reply' => $reply->content,
+            'html' => Blade::render('<x-ai.bubble :message="$message" />', ['message' => $reply]),
+            'failed' => $reply->failed,
+            'integrity' => $reply->integrity,
+        ]);
     }
 
     public function destroy(AiConversation $conversation): RedirectResponse

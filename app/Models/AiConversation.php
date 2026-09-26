@@ -51,6 +51,7 @@ class AiConversation extends Model
         return match ($this->context_type) {
             'course' => 'Curso: '.(Course::whereKey($this->context_id)->value('name') ?? '—'),
             'subject' => 'Asignatura: '.(Subject::whereKey($this->context_id)->value('name') ?? '—'),
+            'quick' => 'Asistente rápido',
             default => 'General',
         };
     }

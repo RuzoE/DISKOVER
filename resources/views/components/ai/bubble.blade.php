@@ -8,7 +8,7 @@
         ->replace("\n", '<br>');
 @endphp
 
-<div class="chat-msg chat-msg--{{ $isUser ? 'user' : 'assistant' }} {{ $message->failed ? 'chat-msg--failed' : '' }}">
+<div class="chat-msg chat-msg--{{ $isUser ? 'user' : 'assistant' }} {{ $message->failed ? 'chat-msg--failed' : '' }} {{ $message->integrity === 'block' ? 'chat-msg--notice' : '' }}">
     <span class="chat-msg__role">{{ $message->role->label() }}</span>
     <div class="chat-msg__body">{!! $html !!}</div>
     <span class="chat-msg__time">{{ $message->created_at?->format('H:i') }}</span>

@@ -4,6 +4,7 @@ namespace Tests\Feature\AI;
 
 use App\DTOs\AI\ChatMessage;
 use App\Services\AI\Exceptions\AiException;
+use App\Services\AI\Exceptions\AiRateLimitedException;
 use App\Services\AI\Providers\OpenAiCompatibleProvider;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -18,6 +19,7 @@ class OpenAiCompatibleProviderTest extends TestCase
             'model' => 'demo-model',
             'timeout' => 5,
             'temperature' => 0.3,
+            'max_tokens' => 321,
         ]);
     }
 
@@ -43,6 +45,7 @@ class OpenAiCompatibleProviderTest extends TestCase
             return $request->hasHeader('Authorization', 'Bearer secret-key')
                 && $request->url() === 'https://api.example.test/v1/chat/completions'
                 && $request['model'] === 'demo-model'
+                && $request['max_tokens'] === 321
                 && $request['messages'][1] === ['role' => 'user', 'content' => 'hola'];
         });
     }
@@ -64,6 +67,16 @@ class OpenAiCompatibleProviderTest extends TestCase
         ]);
 
         $this->expectException(AiException::class);
+        $this->provider()->chat([ChatMessage::user('hola')]);
+    }
+
+    public function test_429_becomes_a_rate_limited_exception(): void
+    {
+        Http::fake([
+            'api.example.test/*' => Http::response(['error' => 'rate limit'], 429),
+        ]);
+
+        $this->expectException(AiRateLimitedException::class);
         $this->provider()->chat([ChatMessage::user('hola')]);
     }
 }

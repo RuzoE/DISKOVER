@@ -6,6 +6,7 @@ use App\DTOs\AI\ChatMessage;
 use App\DTOs\AI\ChatResponse;
 use App\Services\AI\Contracts\AiProvider;
 use App\Services\AI\Exceptions\AiException;
+use App\Services\AI\Exceptions\AiRateLimitedException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Throwable;
@@ -37,6 +38,7 @@ class OpenAiCompatibleProvider implements AiProvider
         $payload = [
             'model' => $this->model(),
             'temperature' => (float) ($this->config['temperature'] ?? 0.4),
+            'max_tokens' => (int) ($this->config['max_tokens'] ?? 500),
             'messages' => array_map(
                 fn (ChatMessage $m) => $m->toArray(),
                 $messages,
@@ -53,6 +55,10 @@ class OpenAiCompatibleProvider implements AiProvider
             throw new AiException('No se pudo contactar con el proveedor de IA: '.$e->getMessage(), previous: $e);
         } catch (Throwable $e) {
             throw new AiException('Error inesperado al llamar al proveedor de IA.', previous: $e);
+        }
+
+        if ($response->status() === 429) {
+            throw new AiRateLimitedException('El proveedor de IA alcanzó su límite de uso (429).');
         }
 
         if ($response->failed()) {

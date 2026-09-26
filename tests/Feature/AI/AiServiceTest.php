@@ -14,8 +14,10 @@ use App\Models\User;
 use App\Services\AI\AiService;
 use App\Services\AI\Contracts\AiProvider;
 use App\Services\AI\Exceptions\AiException;
+use App\Services\AI\Exceptions\AiRateLimitedException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Concerns\InteractsWithRoles;
+use Tests\Fakes\SpyAiProvider;
 use Tests\TestCase;
 
 class AiServiceTest extends TestCase
@@ -99,5 +101,49 @@ class AiServiceTest extends TestCase
 
         $this->assertStringContainsString('CONTEXTO ACADÉMICO', $systemContent);
         $this->assertStringContainsString('Estadística', $systemContent);
+    }
+
+    public function test_provider_rate_limit_shows_a_friendly_retry_message(): void
+    {
+        $this->app->instance(AiProvider::class, new class implements AiProvider
+        {
+            public function chat(array $messages): ChatResponse
+            {
+                throw new AiRateLimitedException('429');
+            }
+
+            public function name(): string
+            {
+                return 'openai';
+            }
+
+            public function model(): string
+            {
+                return 'test-model';
+            }
+        });
+
+        $conversation = app(AiService::class)->startConversation(User::factory()->create(), 'hola');
+
+        $assistant = $conversation->messages()->where('role', 'assistant')->firstOrFail();
+        $this->assertTrue($assistant->failed);
+        $this->assertSame('El asistente está atendiendo muchas consultas; inténtalo en un minuto.', $assistant->content);
+    }
+
+    public function test_new_message_is_sent_once_after_the_history(): void
+    {
+        $spy = new SpyAiProvider;
+        $this->app->instance(AiProvider::class, $spy);
+        $user = User::factory()->create();
+
+        $conversation = app(AiService::class)->startConversation($user, 'primera');
+        app(AiService::class)->sendMessage($conversation, $user, 'segunda');
+
+        $contents = collect(end($spy->calls))
+            ->filter(fn ($m) => $m->role->value !== 'system')
+            ->map(fn ($m) => $m->content)
+            ->values()
+            ->all();
+        $this->assertSame(['primera', 'Respuesta de prueba', 'segunda'], $contents);
     }
 }

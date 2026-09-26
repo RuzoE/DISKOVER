@@ -96,6 +96,8 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::prefix('assistant')->name('assistant.')->group(function () {
         Route::get('/', [AssistantController::class, 'index'])->name('index');
         Route::post('/', [AssistantController::class, 'store'])->middleware('throttle:ai')->name('store');
+        Route::post('quick', [AssistantController::class, 'quick'])
+            ->middleware(['role:admin,student', 'throttle:ai'])->name('quick');
         Route::get('{conversation}', [AssistantController::class, 'show'])->name('show');
         Route::post('{conversation}/messages', [AssistantController::class, 'message'])
             ->middleware('throttle:ai')->name('message');
