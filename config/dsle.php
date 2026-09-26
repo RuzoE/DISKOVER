@@ -89,6 +89,8 @@ return [
         'max_history' => (int) env('DSLE_AI_MAX_HISTORY', 12),
         'rate_limit_per_minute' => (int) env('DSLE_AI_RATE_LIMIT', 12),
         'max_tokens' => (int) env('DSLE_AI_MAX_TOKENS', 500),
+        // Sólo para modelos de razonamiento (p. ej. openai/gpt-oss-120b en Groq): low | medium | high.
+        'reasoning_effort' => env('DSLE_AI_REASONING_EFFORT') ?: null,
         'integrity' => filter_var(env('DSLE_AI_INTEGRITY', true), FILTER_VALIDATE_BOOLEAN),
     ],
 

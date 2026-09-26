@@ -76,17 +76,21 @@ Sin proveedor configurado, el asistente responde en **modo sin conexión**
 ```dotenv
 DSLE_AI_PROVIDER=openai
 DSLE_AI_BASE_URL=https://api.groq.com/openai/v1
-DSLE_AI_MODEL=llama-3.3-70b-versatile
+DSLE_AI_MODEL=openai/gpt-oss-120b
 DSLE_AI_API_KEY=            # tu clave de Groq (console.groq.com/keys)
 DSLE_AI_MAX_TOKENS=500      # tope de tokens por respuesta
 DSLE_AI_INTEGRITY=true      # capa de integridad académica (ADR-0017)
+DSLE_AI_REASONING_EFFORT=low  # sólo modelos de razonamiento (gpt-oss); vacío en los demás
 ```
 
-**En Laravel Cloud:** entorno → *Settings* → *Environment variables* → pega las seis
+**En Laravel Cloud:** entorno → *Settings* → *Environment variables* → pega las
 variables (la clave en `DSLE_AI_API_KEY`) → guarda y vuelve a publicar el entorno
 (botón *Deploy*) para que se apliquen. Comprueba que los comandos de publicación
 incluyan `php artisan migrate --force` (esta versión añade la columna
-`ai_messages.integrity`).
+`ai_messages.integrity`). Para verificar la configuración y la conexión, ejecuta
+`php artisan dsle:ai-check` en la pestaña *Commands*. Groq retira modelos con
+frecuencia (`llama-3.3-70b-versatile` dejó de funcionar el 16/08/2026): si el
+comando devuelve 404, elige un modelo vigente en console.groq.com/docs/deprecations.
 
 Si Groq responde 429 (límite de uso), el estudiante ve: «El asistente está
 atendiendo muchas consultas; inténtalo en un minuto.» El tutor está disponible

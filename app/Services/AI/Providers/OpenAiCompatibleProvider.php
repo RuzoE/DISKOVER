@@ -46,6 +46,11 @@ class OpenAiCompatibleProvider implements AiProvider
             ),
         ];
 
+        // Sólo se envía si está configurado: los modelos sin razonamiento no lo aceptan.
+        if (filled($this->config['reasoning_effort'] ?? null)) {
+            $payload['reasoning_effort'] = (string) $this->config['reasoning_effort'];
+        }
+
         try {
             $response = Http::baseUrl($this->config['base_url'])
                 ->withToken((string) $this->config['api_key'])

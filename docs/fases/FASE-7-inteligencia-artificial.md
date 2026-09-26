@@ -211,11 +211,14 @@ POST   assistant/quick                 assistant.quick    (auth, active, role:ad
 ```dotenv
 DSLE_AI_PROVIDER=openai
 DSLE_AI_BASE_URL=https://api.groq.com/openai/v1
-DSLE_AI_MODEL=llama-3.3-70b-versatile
+DSLE_AI_MODEL=openai/gpt-oss-120b      # llama-3.3-70b-versatile retirado por Groq el 16/08/2026
 DSLE_AI_API_KEY=
 DSLE_AI_MAX_TOKENS=500
 DSLE_AI_INTEGRITY=true
+DSLE_AI_REASONING_EFFORT=low           # sólo modelos de razonamiento
 ```
+
+Diagnóstico: `php artisan dsle:ai-check` (configuración efectiva sin la clave + llamada de prueba).
 
 ### Pruebas nuevas
 - Contexto: incluye pendientes y vencidas propias, próximos 7 días, contenidos y

@@ -46,6 +46,7 @@ class OpenAiCompatibleProviderTest extends TestCase
                 && $request->url() === 'https://api.example.test/v1/chat/completions'
                 && $request['model'] === 'demo-model'
                 && $request['max_tokens'] === 321
+                && ! isset($request['reasoning_effort'])
                 && $request['messages'][1] === ['role' => 'user', 'content' => 'hola'];
         });
     }
@@ -89,5 +90,21 @@ class OpenAiCompatibleProviderTest extends TestCase
         $this->expectException(AiException::class);
         $this->expectExceptionMessage('(401): Invalid API Key');
         $this->provider()->chat([ChatMessage::user('hola')]);
+    }
+
+    public function test_reasoning_effort_is_sent_only_when_configured(): void
+    {
+        Http::fake([
+            'api.example.test/*' => Http::response(['choices' => [['message' => ['content' => 'ok']]]]),
+        ]);
+
+        (new OpenAiCompatibleProvider([
+            'base_url' => 'https://api.example.test/v1',
+            'api_key' => 'k',
+            'model' => 'openai/gpt-oss-120b',
+            'reasoning_effort' => 'low',
+        ]))->chat([ChatMessage::user('hola')]);
+
+        Http::assertSent(fn ($request) => $request['reasoning_effort'] === 'low');
     }
 }

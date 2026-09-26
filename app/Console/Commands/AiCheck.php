@@ -30,6 +30,7 @@ class AiCheck extends Command
             ['DSLE_AI_API_KEY', $key === '' ? '(vacía)' : 'definida, '.strlen($key).' caracteres'.($key !== trim($key) ? ' ⚠ con espacios al inicio o al final' : '')],
             ['DSLE_AI_MAX_TOKENS', (string) $config['max_tokens']],
             ['DSLE_AI_INTEGRITY', $config['integrity'] ? 'true' : 'false'],
+            ['DSLE_AI_REASONING_EFFORT', $config['reasoning_effort'] ?? '(no se envía)'],
             ['Proveedor activo', $provider->name().' ('.$provider->model().')'],
         ]);
 
