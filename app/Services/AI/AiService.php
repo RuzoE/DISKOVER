@@ -136,7 +136,8 @@ class AiService
                 'completion_tokens' => $response->completionTokens,
             ]);
         } catch (AiException $e) {
-            Log::channel('stack')->warning('ai.provider_failed', [
+            // Canal por defecto: en Laravel Cloud aparece en la pestaña Logs.
+            Log::warning('ai.provider_failed', [
                 'conversation_id' => $conversation->id,
                 'provider' => $this->provider->name(),
                 'error' => $e->getMessage(),

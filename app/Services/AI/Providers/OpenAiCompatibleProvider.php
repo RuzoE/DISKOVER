@@ -9,6 +9,7 @@ use App\Services\AI\Exceptions\AiException;
 use App\Services\AI\Exceptions\AiRateLimitedException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Throwable;
 
 /**
@@ -62,7 +63,10 @@ class OpenAiCompatibleProvider implements AiProvider
         }
 
         if ($response->failed()) {
-            throw new AiException('El proveedor de IA respondió con un error ('.$response->status().').');
+            // El mensaje de error del proveedor (p. ej. «Invalid API Key», «model not found») nunca incluye la clave.
+            $detail = Str::limit((string) ($response->json('error.message') ?? $response->body()), 200);
+
+            throw new AiException('El proveedor de IA respondió con un error ('.$response->status().'): '.$detail);
         }
 
         $content = $response->json('choices.0.message.content');

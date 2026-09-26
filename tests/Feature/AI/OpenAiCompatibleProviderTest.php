@@ -79,4 +79,15 @@ class OpenAiCompatibleProviderTest extends TestCase
         $this->expectException(AiRateLimitedException::class);
         $this->provider()->chat([ChatMessage::user('hola')]);
     }
+
+    public function test_error_message_from_the_provider_is_kept_for_the_logs(): void
+    {
+        Http::fake([
+            'api.example.test/*' => Http::response(['error' => ['message' => 'Invalid API Key']], 401),
+        ]);
+
+        $this->expectException(AiException::class);
+        $this->expectExceptionMessage('(401): Invalid API Key');
+        $this->provider()->chat([ChatMessage::user('hola')]);
+    }
 }
